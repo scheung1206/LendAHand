@@ -1,0 +1,72 @@
+<div class="container" id="post-show-container">
+  <div>
+    <button ng-if="isOwner(post)" type="button" class="close" ng-click="deletePost()">&times;</button>
+
+    <div style="float: left;font-size: x-large; padding: 0; width: 2em; text-align: center;">
+          <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar('')">
+            <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
+          </button>
+          <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star('')"  >
+            <span class="glyphicon glyphicon-star-empty"></span>
+          </button>
+          <br/>
+          <div>{{post.stars.length}}</div>
+        </div>
+
+
+    <div>
+      <h1>
+        <div ng-if="! editing">{{post.title}}</div>
+        <input type=text ng-model="post.title" ng-if=" editing">
+      </h1>
+      <span ng-repeat="tag in post.tags">
+        <span class="label label-info">
+          {{tag.text}}
+        </span>
+      </span>
+    </div>
+  </div>
+  <hr/>
+  <pagedown-viewer content="post.description" ng-if="!editing"></pagedown-viewer>
+    <pagedown-editor ng-model="post.description" ng-if=" editing"></pagedown-editor>
+    <button type="submit" class="btn btn-primary" ng-click="editing=false;updatePost()" ng-show=" editing">Save</button>
+    <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a>
+
+  <div class="text-right">by {{post.user.name}} · {{post.createdAt|fromNow}}</div>
+
+<h3>{{post.comments.length}} Comments</h3>
+<div ng-repeat="comment in post.comments">
+  <hr/>
+
+  <div style="float: left;font-size: large; padding: 0; width: 2em; text-align: center;">
+       <button ng-if=" isStar(comment)" type="button" style="background: transparent; border: 0;" ng-click="unstar('/comments/' + comment._id)">
+         <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
+       </button>
+       <button ng-if="!isStar(comment)" type="button" style="background: transparent; border: 0;" ng-click="  star('/comments/' + comment._id)"  >
+         <span class="glyphicon glyphicon-star-empty"></span>
+       </button>
+       <br/>
+       <div>{{comment.stars.length}}</div>
+     </div>
+
+  <div class="comment">
+    <button ng-if="isOwner(comment)" type="button" class="close" ng-click="deleteComment(comment)">&times;</button>
+
+
+
+    <pagedown-viewer content="comment.content" ng-if="!editing"></pagedown-viewer>
+      <pagedown-editor ng-model="comment.content" ng-if=" editing"></pagedown-editor>
+      <button type="submit" class="btn btn-primary" ng-click="editing=false;updateComment(comment)" ng-show=" editing">Save</button>
+      <a ng-click="editing=!editing;" ng-show="isOwner(comment) && !editing">Edit</a>
+    <div class="text-right">by {{comment.user.name}} · {{comment.createdAt|fromNow}}</div>
+
+  </div>
+</div>
+<hr/>
+<h3>Your comment</h3>
+<form name="commentForm" ng-submit="submitComment()">
+  <pagedown-editor ng-model="newComment.content" name="commentEditor" required></pagedown-editor>
+   <input type="submit" class="btn btn-primary" ng-disabled="commentForm.$invalid" value="Submit your comment">
+</form>
+</div>
+</div>
