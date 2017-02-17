@@ -8,13 +8,17 @@ module.exports = {
     uri: 'mongodb://localhost/code-test'
   },
   sequelize: {
-    uri: 'sqlite://',
+    uri: uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://test:test123@ds053206.mlab.com:53206/heroku_8kqdbk2s',
     options: {
-      logging: false,
-      storage: 'test.sqlite',
-      define: {
-        timestamps: false
-      }
-    }
+      user: 'test',
+      pass: 'test123'
+    },
+    // options: {
+    //   logging: false,
+    //   storage: 'test.sqlite',
+    //   define: {
+    //     timestamps: false
+    //   }
+    // }
   }
 };
