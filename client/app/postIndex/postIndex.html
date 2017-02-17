@@ -6,7 +6,7 @@
   </div>
 </header>
 
-<div class="container">
+<div class="container" infinite-scroll='nextPage()' infinite-scroll-disabled='busy || noMoreData'>
   <br/>
   <div style="text-align: center">
     <a type="button" class="btn btn-primary" href="/posts/create">New Post</a>
@@ -52,4 +52,5 @@
      </tr>
    </tbody>
  </table>
+ <div ng-show='busy'>Loading data...</div>
 </div>

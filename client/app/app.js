@@ -12,6 +12,7 @@ angular.module('codeApp', [
   'ngTagsInput',
   'ui.pagedown',
   'ngMessages',
+  'infinite-scroll',
 
   'ui.router',
   'ui.bootstrap',
