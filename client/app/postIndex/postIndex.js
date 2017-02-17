@@ -4,7 +4,7 @@ angular.module('codeApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('main', {
-        url: '/',
+        url: '/?keyword',
         templateUrl: 'app/postIndex/postIndex.html',
         controller: 'PostIndexCtrl',
         resolve: {

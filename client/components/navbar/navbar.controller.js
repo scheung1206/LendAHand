@@ -10,7 +10,10 @@ class NavbarController {
   isCollapsed = true;
   //end-non-standard
 
-  constructor(Auth) {
+  constructor(Auth, $state) {
+    this.search = function(keyword) {
+      $state.go('main', {keyword: keyword}, {reload: true});
+    };
     this.menu = [
         {
           'title': 'All',

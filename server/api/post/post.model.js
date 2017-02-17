@@ -49,4 +49,11 @@ PostSchema.pre('findOne', function(next){
   next();
 });
 
+PostSchema.index({
+  'title': 'text',
+  'description': 'text',
+  'tags.text': 'text',
+  'comments.content': 'text',
+}, {name: 'post_schema_index'});
+
 export default mongoose.model('Post', PostSchema);

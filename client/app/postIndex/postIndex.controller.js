@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('codeApp')
-  .controller('PostIndexCtrl', function ($scope,$http,Auth,query) {
+  .controller('PostIndexCtrl', function ($scope,$http, $location,Auth,query) {
+    var keyword = $location.search().keyword;
+    if(keyword){
+      query = _.merge(query, {$text: {$search: keyword}});
+    }
     $http.get('/api/posts', {params: {query: query}}).success(function(posts) {
       $scope.posts = posts;
       });
