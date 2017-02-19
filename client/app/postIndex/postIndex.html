@@ -22,9 +22,9 @@
    </thead>
    <tbody>
      <tr ng-repeat="post in posts">
-       <td style="text-align: center; vertical-align:middle">
-         <div class="sphere green"></div>
-       <div style="font-size: xx-large;">{{post.stars.length}}</div>
+       <td>
+         <div ng-if=""
+       <div class="sphere red"></div>
        </td>
        <td style="text-align: center; vertical-align:middle">
          <div style="font-size: xx-large;">{{post.comments.length}}</div>
