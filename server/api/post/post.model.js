@@ -5,6 +5,13 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var PostSchema = new mongoose.Schema({
   title: String,
   description: String,
+  price: Number,
+  location: String,
+  serviceDate: Date,
+  progress: {
+    type: String,
+    default: "Open"
+  },
   //active: Boolean,
   comments: [{
     content: String,

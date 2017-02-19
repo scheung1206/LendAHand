@@ -29,6 +29,33 @@
   <hr/>
   <pagedown-viewer content="post.description" ng-if="!editing"></pagedown-viewer>
     <pagedown-editor ng-model="post.description" ng-if=" editing"></pagedown-editor>
+
+    <h3>
+      <div ng-if="! editing">{{post.price}}</div>
+      <input type=number ng-model="post.price" ng-if=" editing">
+    </h3>
+
+    <h3>
+      <div ng-if="! editing">{{post.location}}</div>
+      <input type=text ng-model="post.location" ng-if=" editing">
+    </h3>
+
+    <h3>
+      <div ng-if="! editing">{{post.serviceDate | date:'mediumDate'}}</div>
+      <input type=date ng-model="post.serviceDate" ng-if=" editing">
+    </h3>
+
+    <h3>
+      <div ng-if="! editing">{{post.progress}}</div>
+      <select type=text ng-model="post.progress" ng-if=" editing">
+          <option value="Open">Open</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </form>
+    </h3>
+
+
     <button type="submit" class="btn btn-primary" ng-click="editing=false;updatePost()" ng-show=" editing">Save</button>
     <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a>
 
