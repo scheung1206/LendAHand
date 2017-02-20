@@ -28,15 +28,21 @@ class NavbarController {
           'show': Auth.isLoggedIn,
         },
         {
-          'title': 'Starred',          
+          'title': 'Starred',         
           'expand': function(){return true;}, 
           'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
           'show': Auth.isLoggedIn,
         },
         {
-          'title': 'Profile',
+          'title': 'View Profile',
           'expand': function(){return true;}, 
-          'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
+          'link':  function(){return '/profile';},
+          'show': Auth.isLoggedIn,
+        },
+         {
+          'title': 'Edit Profile',
+          'expand': function(){return true;}, 
+          'link': function(){return '/profileEdit';},
           'show': Auth.isLoggedIn,
         },
       ];
