@@ -11,6 +11,7 @@ angular.module('codeApp')
     });
 
     var socket = socketFactory({ ioSocket });
+   
 
     return {
       socket,
