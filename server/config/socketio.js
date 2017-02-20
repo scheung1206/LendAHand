@@ -7,6 +7,7 @@ import config from './environment';
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
+  console.log('Disconnected!');
 }
 
 // When the user connects.. perform this
@@ -14,6 +15,7 @@ function onConnect(socket) {
   // When the client emits 'info', this listens and executes
   socket.on('info', data => {
     socket.log(JSON.stringify(data, null, 2));
+    console.log('A user has connected');
   });
 
   // Insert sockets below
@@ -48,14 +50,25 @@ export default function(socketio) {
       console.log(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
     };
 
+        //Send Message
+    socket.on('send message', function(data){
+      io.sockets.emit('new message', {msg: data});
+    });
+
+
     // Call onDisconnect.
     socket.on('disconnect', () => {
       onDisconnect(socket);
       socket.log('DISCONNECTED');
+      console.log('Disconnected!');
     });
 
     // Call onConnect.
     onConnect(socket);
     socket.log('CONNECTED');
+     console.log('A user has connected');
   });
+
+
+   
 }
