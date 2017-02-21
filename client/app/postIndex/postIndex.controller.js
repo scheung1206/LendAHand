@@ -32,17 +32,17 @@ angular.module('codeApp')
       });
     };
 
-      $scope.isStar = function(obj){
-      return Auth.isLoggedIn() && obj && obj.stars && obj.stars.indexOf(Auth.getCurrentUser()._id)!==-1;
+      $scope.isLike = function(obj){
+      return Auth.isLoggedIn() && obj && obj.likes && obj.likes.indexOf(Auth.getCurrentUser()._id)!==-1;
     };
 
-    $scope.star = function(obj) {
-      $http.put('/api/posts/' + obj._id  + '/star').success(function(){
+    $scope.like = function(obj) {
+      $http.put('/api/posts/' + obj._id  + '/like').success(function(){
         loadPosts();
       });
     };
-    $scope.unstar = function(obj) {
-      $http.delete('/api/posts/' + obj._id  + '/star').success(function(){
+    $scope.unlike = function(obj) {
+      $http.delete('/api/posts/' + obj._id  + '/like').success(function(){
         loadPosts();
       });
     };

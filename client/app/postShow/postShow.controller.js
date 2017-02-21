@@ -39,16 +39,16 @@ angular.module('codeApp')
      $scope.isOwner = function(obj){
        return Auth.isLoggedIn() && obj && obj.user && obj.user._id === Auth.getCurrentUser()._id;
      };
-     $scope.isStar = function(obj){
-     return Auth.isLoggedIn() && obj && obj.stars && obj.stars.indexOf(Auth.getCurrentUser()._id)!==-1;
+     $scope.isLike = function(obj){
+     return Auth.isLoggedIn() && obj && obj.likes && obj.likes.indexOf(Auth.getCurrentUser()._id)!==-1;
    };
-   $scope.star = function(subpath) {
-     $http.put('/api/posts/' + $scope.post._id + subpath + '/star').success(function(){
+   $scope.like = function(subpath) {
+     $http.put('/api/posts/' + $scope.post._id + subpath + '/like').success(function(){
        loadPosts();
      });
    };
-   $scope.unstar = function(subpath) {
-     $http.delete('/api/posts/' + $scope.post._id + subpath + '/star').success(function(){
+   $scope.unlike = function(subpath) {
+     $http.delete('/api/posts/' + $scope.post._id + subpath + '/like').success(function(){
        loadPosts();
      });
    };

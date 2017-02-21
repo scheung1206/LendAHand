@@ -1,7 +1,7 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>LendAHand</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <p class="lead">Kick-Liket your next web app with Angular Fullstack</p>
     <img src="assets/images/yeoman.png" alt="I'm Yeoman">
   </div>
 </header>
@@ -15,7 +15,7 @@
   <table class="table table-striped">
    <thead>
      <tr>
-       <!-- <th width="10">Stars</th> -->
+       <!-- <th width="10">Likes</th> -->
        <!-- <th width="10">Comments</th> -->
        <th>Post</th>
      </tr>
@@ -23,7 +23,7 @@
    <tbody>
      <tr ng-repeat="post in posts">
        <!-- <td style="text-align: center; vertical-align:middle">
-         <div style="font-size: xx-large;">{{post.stars.length}}</div>
+         <div style="font-size: xx-large;">{{post.likes.length}}</div>
        </td> -->
        <!-- <td style="text-align: center; vertical-align:middle">
          <div style="font-size: xx-large;">{{post.comments.length}}</div>
@@ -53,11 +53,11 @@
          </div>
          <div>
            <span>
-                <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar(post)">
-                     <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>Star
+                <button ng-if=" isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="unlike(post)">
+                     <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
                    </button>
-                   <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star(post)"  >
-                     <span class="glyphicon glyphicon-star-empty"></span>Star
+                   <button ng-if="!isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="like(post)"  >
+                     <span class="glyphicon glyphicon-heart-empty"></span>Like
                    </button>
            </span>
            <span>

@@ -23,7 +23,7 @@ var PostSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
-    stars: [{
+    likes: [{
       type: mongoose.Schema.ObjectId,
       ref: 'User'
     }],
@@ -39,7 +39,7 @@ var PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  stars: [{
+  likes: [{
       type: mongoose.Schema.ObjectId,
       ref: 'User'
     }],

@@ -29,11 +29,11 @@
     <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a>
     <div>
       <span>
-        <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar('')">
-          <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>Star
+        <button ng-if=" isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="unlike('')">
+          <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
         </button>
-        <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star('')"  >
-          <span class="glyphicon glyphicon-star-empty"></span>Star
+        <button ng-if="!isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="like('')"  >
+          <span class="glyphicon glyphicon-heart-empty"></span>Like
         </button>
       </span>
       <span>
@@ -55,16 +55,16 @@
     </div>
 <!-- <hr>
 <div style="float: left;font-size: x-large; padding: 0; width: 2em; text-align: center;">
-      <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar('')">
-        <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
+      <button ng-if=" isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="unlike('')">
+        <span class="glyphicon glyphicon-like" style="color: #CF7C00;" ></span>
       </button>
-      <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star('')"  >
-        <span class="glyphicon glyphicon-star-empty"></span>
+      <button ng-if="!isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="like('')"  >
+        <span class="glyphicon glyphicon-like-empty"></span>
       </button>
       <br/>
-      <div>{{post.stars.length}}</div>
+      <div>{{post.likes.length}}</div>
     </div>
-Star
+Like
 
     <h3>
       <div ng-if="! editing">{{post.location}}</div>
@@ -96,14 +96,14 @@ Star
 <div ng-repeat="comment in post.comments">
 
   <div style="float: left;font-size: large; padding: 0; width: 2em; text-align: center;">
-       <button ng-if=" isStar(comment)" type="button" style="background: transparent; border: 0;" ng-click="unstar('/comments/' + comment._id)">
-         <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
+       <button ng-if=" isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/comments/' + comment._id)">
+         <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>
        </button>
-       <button ng-if="!isStar(comment)" type="button" style="background: transparent; border: 0;" ng-click="  star('/comments/' + comment._id)"  >
-         <span class="glyphicon glyphicon-star-empty"></span>
+       <button ng-if="!isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="  like('/comments/' + comment._id)"  >
+         <span class="glyphicon glyphicon-heart-empty"></span>
        </button>
        <br/>
-       <div>{{comment.stars.length}}</div>
+       <div>{{comment.likes.length}}</div>
      </div>
 
   <div class="comment">
