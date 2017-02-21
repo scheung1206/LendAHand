@@ -10,7 +10,7 @@
     <span class="text-success" ng-show="form.post_title.$valid">OK</span>
     <br>
     <h2>Description:</h2>
-    <pagedown-editor ng-model="post.description" ng-model="post.description" name="post_description" required></pagedown-editor>
+    <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="post.description" ng-model="post.description" name="post_description" required></textarea>
     <span class="text-danger" ng-messages="form.post_description.$error">
       <span ng-message="required">Required</span>
     </span>

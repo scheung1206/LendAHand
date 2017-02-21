@@ -1,39 +1,70 @@
 <div class="container" id="post-show-container">
-  <div>
+  <div class="col-md-8 col-md-offset-2">
     <button ng-if="isOwner(post)" type="button" class="close" ng-click="deletePost()">&times;</button>
-
-    <div style="float: left;font-size: x-large; padding: 0; width: 2em; text-align: center;">
-          <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar('')">
-            <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
-          </button>
-          <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star('')"  >
-            <span class="glyphicon glyphicon-star-empty"></span>
-          </button>
-          <br/>
-          <div>{{post.stars.length}}</div>
-        </div>
 
 
     <div>
-      <h1>
-        <div ng-if="! editing">{{post.title}}</div>
+      <div style="float: right">{{post.createdAt|fromNow}} </div>
+      <div>
+        <span style="font-size:xx-large" ng-if="! editing">{{post.title}}</span>
         <input type=text ng-model="post.title" ng-if=" editing">
-      </h1>
+          <small>Requested by <a ng-href="/users/{{post.user._id}}">{{post.user.name}}</a></small>
+      </div>
       <span ng-repeat="tag in post.tags">
         <span class="label label-info">
           {{tag.text}}
         </span>
       </span>
     </div>
-  </div>
-  <hr/>
-  <pagedown-viewer content="post.description" ng-if="!editing"></pagedown-viewer>
-    <pagedown-editor ng-model="post.description" ng-if=" editing"></pagedown-editor>
 
-    <h3>
-      <div ng-if="! editing">{{post.price}}</div>
+  <pagedown-viewer content="post.description" ng-if="!editing"></pagedown-viewer>
+    <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="post.description" ng-if=" editing"></textarea>
+<br>
+    <div style="float:right;">
+      <div ng-if="! editing">{{post.location}} ${{post.price}}</div>
+      <input type=text ng-model="post.location" ng-if=" editing">
       <input type=number ng-model="post.price" ng-if=" editing">
-    </h3>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-click="editing=false;updatePost()" ng-show=" editing">Save</button>
+    <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a>
+    <div>
+      <span>
+        <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar('')">
+          <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>Star
+        </button>
+        <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star('')"  >
+          <span class="glyphicon glyphicon-star-empty"></span>Star
+        </button>
+      </span>
+      <span>
+        <button type="button" style="background: transparent; border: 0;">
+             <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>
+             Comment ({{post.comments.length}})
+           </button>
+      </span>
+      <span>
+        <button type="button" style="background: transparent; border: 0;">
+             <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>Share
+           </button>
+      </span>
+      <span>
+        <button type="button" style="background: transparent; border: 0;">
+             <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Report
+           </button>
+      </span>
+    </div>
+<!-- <hr>
+<div style="float: left;font-size: x-large; padding: 0; width: 2em; text-align: center;">
+      <button ng-if=" isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="unstar('')">
+        <span class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
+      </button>
+      <button ng-if="!isStar(post)" type="button" style="background: transparent; border: 0;" ng-click="star('')"  >
+        <span class="glyphicon glyphicon-star-empty"></span>
+      </button>
+      <br/>
+      <div>{{post.stars.length}}</div>
+    </div>
+Star
 
     <h3>
       <div ng-if="! editing">{{post.location}}</div>
@@ -52,17 +83,17 @@
           <option value="In Progress">In Progress</option>
           <option value="Closed">Closed</option>
         </select>
-    </h3>
+    </h3> -->
 
 
-    <button type="submit" class="btn btn-primary" ng-click="editing=false;updatePost()" ng-show=" editing">Save</button>
-    <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a>
+    <!-- <button type="submit" class="btn btn-primary" ng-click="editing=false;updatePost()" ng-show=" editing">Save</button>
+    <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a> -->
 
-  <div class="text-right">by {{post.user.name}} · {{post.createdAt|fromNow}}</div>
+  <!-- <div class="text-right">by {{post.user.name}} · {{post.createdAt|fromNow}}</div> -->
 
+<hr/>
 <h3>{{post.comments.length}} Comments</h3>
 <div ng-repeat="comment in post.comments">
-  <hr/>
 
   <div style="float: left;font-size: large; padding: 0; width: 2em; text-align: center;">
        <button ng-if=" isStar(comment)" type="button" style="background: transparent; border: 0;" ng-click="unstar('/comments/' + comment._id)">
@@ -81,18 +112,21 @@
 
 
     <pagedown-viewer content="comment.content" ng-if="!editing2"></pagedown-viewer>
-      <pagedown-editor ng-model="comment.content" ng-if=" editing2&&isOwner(comment)"></pagedown-editor>
+      <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="comment.content" ng-if=" editing2&&isOwner(comment)"></textarea>
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateComment(comment)" ng-show=" editing2">Save</button>
       <a ng-click="editing2=!editing2;" ng-show="isOwner(comment) && !editing2">Edit</a>
     <div class="text-right">by {{comment.user.name}} · {{comment.createdAt|fromNow}}</div>
 
   </div>
+  <hr/>
 </div>
-<hr/>
 <h3>Your comment</h3>
+<div>
 <form name="commentForm" ng-submit="submitComment()">
-  <pagedown-editor ng-model="newComment.content" name="commentEditor" required></pagedown-editor>
+  <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="newComment.content" name="commentEditor" required></textarea>
+<br>
    <input type="submit" class="btn btn-primary" ng-disabled="commentForm.$invalid" value="Submit your comment">
 </form>
+</div>
 </div>
 </div>
