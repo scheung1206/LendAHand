@@ -1,9 +1,9 @@
-<<html>
+<html>
 <head>
 	<title>LendAHand Open Chat</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="http://localhost:9000/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<style>
 		body{
 			margin-top:30px;
@@ -42,19 +42,19 @@
 	<script>
 		 $(function(){
 			var socket = io.connect();
-			var $messageForm = $('#messageForm');
-			var $message = $('#message');
-			var $chat = $('#chat');
+			// var $messageForm = $('#messageForm');
+			// var $message = $('#message');
+			// var $chat = $('#chat');
 
-			$messageForm.submit(function(e){
-				e.preventDefault();
-				socket.emit('send message', $message.val());
-				$message.val('');
-			});
+			// $messageForm.submit(function(e){
+			// 	e.preventDefault();
+			// 	socketio.emit('send message', $message.val());
+			// 	$message.val('');
+			// });
 
-			socket.on('new message', function(data){
-				$chat.append('<div class="well">'+data.msg+'</div');
-			});
+			// socket.on('new message', function(data){
+			// 	$chat.append('<div class="well">'+data.msg+'</div');
+			// });
 		  });
 	</script>
 
