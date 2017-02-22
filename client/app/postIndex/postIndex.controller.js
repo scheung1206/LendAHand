@@ -55,4 +55,19 @@ angular.module('codeApp')
         $scope.busy = false;
         });
     };
+    $scope.isReport = function(obj){
+    return Auth.isLoggedIn() && obj && obj.reports && obj.reports.indexOf(Auth.getCurrentUser()._id)!==-1;
+  };
+
+  $scope.report = function(obj) {
+    $http.put('/api/posts/' + obj._id  + '/report').success(function(){
+      loadPosts();
+    });
+  };
+  $scope.unreport = function(obj) {
+    $http.delete('/api/posts/' + obj._id  + '/report').success(function(){
+      loadPosts();
+    });
+  };
+
   });

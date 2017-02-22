@@ -58,3 +58,17 @@
   white-space: wrap;
 
 }
+
+.indexLocation {
+  max-width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.indexPrice {
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

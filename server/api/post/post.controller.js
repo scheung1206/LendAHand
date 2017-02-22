@@ -181,3 +181,33 @@ export function unlikeComment(req, res) {
     exports.show(req, res);
   });
 }
+export function report(req, res) {
+  Post.update({_id: req.params.id}, {$push: {reports: req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+export function unreport(req, res) {
+  Post.update({_id: req.params.id}, {$pull: {reports: req.user.id}}, function(err, num){
+    if(err) { return handleError(res, err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+
+/* report/unreport comment */
+export function reportComment(req, res) {
+  Post.update({_id: req.params.id, 'comments._id': req.params.commentId}, {$push: {'comments.$.reports': req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+export function unreportComment(req, res) {
+  Post.update({_id: req.params.id, 'comments._id': req.params.commentId}, {$pull: {'comments.$.reports': req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}

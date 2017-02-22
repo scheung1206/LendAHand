@@ -17,6 +17,17 @@
       </span>
     </div>
 
+    <!-- <div style="float: left;font-size: x-large; padding: 0; width: 2em; text-align: center;">
+      <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport('')">
+        <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>
+      </button>
+      <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report('')"  >
+        <span class="glyphicon glyphicon-warning-sign"></span>
+      </button>
+      <br/>
+      <div>{{post.reports.length}}</div>
+    </div> -->
+
   <pagedown-viewer content="post.description" ng-if="!editing"></pagedown-viewer>
     <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="post.description" ng-if=" editing"></textarea>
 <br>
@@ -38,19 +49,22 @@
       </span>
       <span>
         <button type="button" style="background: transparent; border: 0;">
-             <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>
+             <span class="glyphicon glyphicon-envelope" ></span>
              Comment ({{post.comments.length}})
            </button>
       </span>
       <span>
         <button type="button" style="background: transparent; border: 0;">
-             <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>Share
+             <span class="glyphicon glyphicon-envelope" ></span>Share
            </button>
       </span>
       <span>
-        <button type="button" style="background: transparent; border: 0;">
-             <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Report
-           </button>
+        <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport('')">
+          <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+        </button>
+        <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report('')"  >
+          <span class="glyphicon glyphicon-warning-sign"></span>Report
+        </button>
       </span>
     </div>
 <!-- <hr>
@@ -95,7 +109,7 @@ Like
 <h3>{{post.comments.length}} Comments</h3>
 <div ng-repeat="comment in post.comments">
 
-  <div style="float: left;font-size: large; padding: 0; width: 2em; text-align: center;">
+  <!-- <div style="float: left;font-size: large; padding: 0; width: 2em; text-align: center;">
        <button ng-if=" isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/comments/' + comment._id)">
          <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>
        </button>
@@ -106,6 +120,17 @@ Like
        <div>{{comment.likes.length}}</div>
      </div>
 
+     <div style="float: right;font-size: large; padding: 0; width: 2em; text-align: center;">
+      <button ng-if=" isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/comments/' + comment._id)">
+        <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>
+      </button>
+      <button ng-if="!isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="  report('/comments/' + comment._id)"  >
+        <span class="glyphicon glyphicon-warning-sign"></span>
+      </button>
+      <br/>
+      <div>{{comment.reports.length}}</div>
+    </div> -->
+
   <div class="comment">
     <button ng-if="isOwner(comment)" type="button" class="close" ng-click="deleteComment(comment)">&times;</button>
 
@@ -114,8 +139,24 @@ Like
     <pagedown-viewer content="comment.content" ng-if="!editing2"></pagedown-viewer>
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="comment.content" ng-if=" editing2&&isOwner(comment)"></textarea>
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateComment(comment)" ng-show=" editing2">Save</button>
-      <a ng-click="editing2=!editing2;" ng-show="isOwner(comment) && !editing2">Edit</a>
-    <div class="text-right">by {{comment.user.name}} · {{comment.createdAt|fromNow}}</div>
+      <a ng-click="editing2=!editing2;" ng-show="isOwner(comment) && !editing2">Edit</a><br>
+      <span>
+        <button ng-if=" isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/comments/' + comment._id)">
+          <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
+        </button>
+        <button ng-if="!isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="  like('/comments/' + comment._id)"  >
+          <span class="glyphicon glyphicon-heart-empty"></span>Like
+        </button>
+      </span>
+      <span>
+        <button ng-if=" isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/comments/' + comment._id)">
+          <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+        </button>
+        <button ng-if="!isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="  report('/comments/' + comment._id)"  >
+          <span class="glyphicon glyphicon-warning-sign"></span>Report
+        </button>
+      </span>
+    <span style="float:right" class="text-right">by {{comment.user.name}} · {{comment.createdAt|fromNow}}</span>
 
   </div>
   <hr/>

@@ -52,6 +52,19 @@ angular.module('codeApp')
        loadPosts();
      });
    };
+   $scope.isReport = function(obj){
+      return Auth.isLoggedIn() && obj && obj.reports && obj.reports.indexOf(Auth.getCurrentUser()._id)!==-1;
+    };
+    $scope.report = function(subpath) {
+      $http.put('/api/posts/' + $scope.post._id + subpath + '/report').success(function(){
+        loadPosts();
+      });
+    };
+    $scope.unreport = function(subpath) {
+      $http.delete('/api/posts/' + $scope.post._id + subpath + '/report').success(function(){
+        loadPosts();
+      });
+    };
 
 
   });

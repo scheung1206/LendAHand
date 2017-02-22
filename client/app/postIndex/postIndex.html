@@ -49,7 +49,7 @@
          <div class="clearfix"></div>
          <div style="float: right;">
           <!-- Posted by <a ng-href="/users/{{post.user._id}}">{{post.user.name}}</a> -->
-          {{post.location}} , ${{post.price}}
+        {{post.location}}, ${{post.price}}
          </div>
          <div>
            <span>
@@ -62,18 +62,21 @@
            </span>
            <span>
              <button type="button" style="background: transparent; border: 0;">
-                  <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>
+                  <span class="glyphicon glyphicon-envelope" ></span>
                   Comment ({{post.comments.length}})
                 </button>
            </span>
            <span>
              <button type="button" style="background: transparent; border: 0;">
-                  <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>Share
+                  <span class="glyphicon glyphicon-envelope" ></span>Share
                 </button>
            </span>
            <span>
-             <button type="button" style="background: transparent; border: 0;">
-                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Report
+             <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport(post)">
+                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+                </button>
+                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post)"  >
+                  <span class="glyphicon glyphicon-warning-sign"></span>Report
                 </button>
            </span>
          </div>
