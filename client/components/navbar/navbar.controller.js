@@ -34,6 +34,11 @@ class NavbarController {
           'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
           'show': Auth.isLoggedIn,
         },
+        {
+          'title': 'Chatroom',
+          'link': function(){return '/chat';},
+          'show': function(){return true;},
+        },
       ];
       this.isLoggedIn = Auth.isLoggedIn;
       this.isAdmin = Auth.isAdmin;
