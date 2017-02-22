@@ -26,7 +26,11 @@ class NavbarController {
           'show': Auth.isLoggedIn,
         },
         {
-          'title': 'Starred',
+          'title': 'Liked',
+          'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/liked';},
+          'show': Auth.isLoggedIn,
+        },
+        { 'title': 'Profile',
           'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
           'show': Auth.isLoggedIn,
         },
