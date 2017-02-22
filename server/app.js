@@ -24,16 +24,50 @@ if (config.seedDB) { require('./config/seed'); }
 var app = express();
 var server = http.createServer(app);
 // //Adding stuff for socketio chatroom
-// var io = require('socket.io').listen(server);
-// var users = [];
-// var connections = [];
+var io = require('socket.io').listen(server);
+var users = [];
+var connections = [];
 
-// //server.listen(process.env.PORT || 9000);
-// console.log('Server running....');
+//server.listen(process.env.PORT || 9000);
+console.log('Server running....');
 
 // app.get('/', function(req, res){
-// 	res.sendFile(__dirname + '/index.html');
+// 	res.sendFile(__dirname + '/chat.html');
 // });
+
+//SocketIo Configuration
+io.sockets.on('connection', function(socket){
+  connections.push(socket);
+  console.log('Connected: %s sockets connected', connections.length);
+
+  //Disconnect
+  	socket.on('disconnect', function(data){
+  		//if(!socket.username) return;
+  		users.splice(users.indexOf(socket.username), 1);
+  		updateUsernames();
+  		connections.splice(connections.indexOf(socket), 1);
+    	console.log('Disconnected: %s sockets connected', connections.length);
+  	});
+
+   //Send Message
+    socket.on('send message', function(data){
+    	console.log(data);
+      io.sockets.emit('new message', {msg: data, user: socket.username});
+    });
+
+    //New User
+    socket.on('new user', function(data, callback){
+    	callback(true);
+    	socket.username = data;
+    	users.push(socket.username);
+    	updateUsernames();
+    });
+
+    function updateUsernames(){
+    	io.sockets.emit('get users', users);
+    }
+
+  });
 
 
 //Previous Code
@@ -42,6 +76,9 @@ var server = http.createServer(app);
 //   path: '/socket.io-client'
 // });
 // require('./config/socketio')(socketio);
+
+
+
 require('./config/express')(app);
 require('./routes')(app);
 
