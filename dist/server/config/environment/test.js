@@ -9,8 +9,8 @@ module.exports = {
     options: {
       user: 'test',
       pass: 'test123'
-  						},
-			},
+    }
+  }
 };
 //   sequelize: {
 //     options: {
@@ -22,3 +22,4 @@ module.exports = {
 //     }
 //   }
 // };
+//# sourceMappingURL=test.js.map
