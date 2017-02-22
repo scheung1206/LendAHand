@@ -10,13 +10,13 @@ var ProfileSchema = new mongoose.Schema({
   photo: String,
   aboutMe: String,
   location: String,
+  createdAt: {
+      type: Date,
+      default: Date.now,
+    },
     createdAt: {
     type: Date,
     default: Date.now
-  },
-    hasMade: {
-    type: Boolean,
-    default: false
   },
   profileImageURL: {
     type: String,
