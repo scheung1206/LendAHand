@@ -150,32 +150,32 @@ export function updateComment(req, res) {
   });
 }
 
-/* star/unstar post */
-export function star(req, res) {
-  Post.update({_id: req.params.id}, {$push: {stars: req.user.id}}, function(err, num){
+/* like/unlike post */
+export function like(req, res) {
+  Post.update({_id: req.params.id}, {$push: {likes: req.user.id}}, function(err, num){
     if(err) { return handleError(res)(err); }
     if(num === 0) { return res.send(404).end(); }
     exports.show(req, res);
   });
 }
-export function unstar(req, res) {
-  Post.update({_id: req.params.id}, {$pull: {stars: req.user.id}}, function(err, num){
+export function unlike(req, res) {
+  Post.update({_id: req.params.id}, {$pull: {likes: req.user.id}}, function(err, num){
     if(err) { return handleError(res, err); }
     if(num === 0) { return res.send(404).end(); }
     exports.show(req, res);
   });
 }
 
-/* star/unstar comment */
-export function starComment(req, res) {
-  Post.update({_id: req.params.id, 'comments._id': req.params.commentId}, {$push: {'comments.$.stars': req.user.id}}, function(err, num){
+/* like/unlike comment */
+export function likeComment(req, res) {
+  Post.update({_id: req.params.id, 'comments._id': req.params.commentId}, {$push: {'comments.$.likes': req.user.id}}, function(err, num){
     if(err) { return handleError(res)(err); }
     if(num === 0) { return res.send(404).end(); }
     exports.show(req, res);
   });
 }
-export function unstarComment(req, res) {
-  Post.update({_id: req.params.id, 'comments._id': req.params.commentId}, {$pull: {'comments.$.stars': req.user.id}}, function(err, num){
+export function unlikeComment(req, res) {
+  Post.update({_id: req.params.id, 'comments._id': req.params.commentId}, {$pull: {'comments.$.likes': req.user.id}}, function(err, num){
     if(err) { return handleError(res)(err); }
     if(num === 0) { return res.send(404).end(); }
     exports.show(req, res);
