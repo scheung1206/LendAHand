@@ -23,6 +23,20 @@ if (config.seedDB) { require('./config/seed'); }
 // Setup server
 var app = express();
 var server = http.createServer(app);
+// //Adding stuff for socketio chatroom
+// var io = require('socket.io').listen(server);
+// var users = [];
+// var connections = [];
+
+// //server.listen(process.env.PORT || 9000);
+// console.log('Server running....');
+
+// app.get('/', function(req, res){
+// 	res.sendFile(__dirname + '/index.html');
+// });
+
+
+//Previous Code
 // var socketio = require('socket.io')(server, {
 //   serveClient: config.env !== 'production',
 //   path: '/socket.io-client'
@@ -31,8 +45,6 @@ var server = http.createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
-// users[];
-// connections[];
 
 // Start server
 function startServer() {
