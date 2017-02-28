@@ -65,6 +65,11 @@ angular.module('codeApp')
         loadPosts();
       });
     };
+    $scope.commentScroll = function(obj) {
+      $http.get('/posts/show/' + obj._id).success(function(){
+        $location.path('/posts/show/' + obj._id);
+      });
+    };
 
 
   });
