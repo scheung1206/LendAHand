@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 angular.module('codeApp')
   .controller('ProfileEditCtrl', function ($scope, $http, $location, Auth) {
