@@ -34,7 +34,11 @@ class NavbarController {
           'show': Auth.isLoggedIn,
         },
         { 'title': 'Profile',
-          'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
+          'link': function(){return '/profile';},
+          'show': Auth.isLoggedIn,
+        },
+        { 'title': 'Edit Profile',
+          'link': function(){return '/profileEdit';},
           'show': Auth.isLoggedIn,
         },
         {
