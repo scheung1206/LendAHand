@@ -11,16 +11,16 @@ angular.module('codeApp')
           query: function(){return {};}
         },
       })
-      .state('starredPostsIndex', {
-        url: '/users/:userId/starred',
+      .state('likedPostsIndex', {
+        url: '/users/:userId/liked',
         templateUrl: 'app/postIndex/postIndex.html',
         controller: 'PostIndexCtrl',
         resolve: {
           query: function($stateParams){
             return {
               $or: [
-                {'stars': $stateParams.userId},
-                {'comments.stars': $stateParams.userId},
+                {'likes': $stateParams.userId},
+                {'comments.likes': $stateParams.userId},
               ]
             };
           }

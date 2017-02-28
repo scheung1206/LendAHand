@@ -28,22 +28,20 @@ class NavbarController {
           'show': Auth.isLoggedIn,
         },
         {
-          'title': 'Starred',         
-          'expand': function(){return true;}, 
+
+          'title': 'Liked',
+          'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/liked';},
+          'show': Auth.isLoggedIn,
+        },
+        { 'title': 'Profile',
           'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
           'show': Auth.isLoggedIn,
         },
         {
-          'title': 'View Profile',
-          'expand': function(){return true;}, 
-          'link':  function(){return '/profile';},
-          'show': Auth.isLoggedIn,
-        },
-         {
-          'title': 'Edit Profile',
-          'expand': function(){return true;}, 
-          'link': function(){return '/profileEdit';},
-          'show': Auth.isLoggedIn,
+
+          'title': 'Chatroom',
+          'link': function(){return '/chat';},
+          'show': function(){return true;},
         },
       ];
       this.isLoggedIn = Auth.isLoggedIn;

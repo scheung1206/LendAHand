@@ -1,7 +1,7 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>LendAHand</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <p class="lead">Kick-Start your next web app with Angular Fullstack</p>
     <img src="assets/images/yeoman.png" alt="I'm Yeoman">
   </div>
 </header>
@@ -11,40 +11,73 @@
   <div style="text-align: center">
     <a type="button" class="btn btn-primary" href="/posts/create">New Post</a>
   </div>
-
+<div class="col-md-8 col-xs-12 col-md-offset-2">
   <table class="table table-striped">
    <thead>
      <tr>
-       <th width="20">Stars</th>
-       <th width="20">Comments</th>
+       <!-- <th width="10">Likes</th> -->
+       <!-- <th width="10">Comments</th> -->
        <th>Post</th>
      </tr>
    </thead>
    <tbody>
      <tr ng-repeat="post in posts">
-       <td style="text-align: center; vertical-align:middle">
-         <div style="font-size: xx-large;">{{post.stars.length}}</div>
-       </td>
-       <td style="text-align: center; vertical-align:middle">
+       <!-- <td style="text-align: center; vertical-align:middle">
+         <div style="font-size: xx-large;">{{post.likes.length}}</div>
+       </td> -->
+       <!-- <td style="text-align: center; vertical-align:middle">
          <div style="font-size: xx-large;">{{post.comments.length}}</div>
-       </td>
+       </td> -->
        <td>
+
          <div style="float: right;">
-           <span ng-if=" isStar(post)" class="glyphicon glyphicon-star" style="color: #CF7C00;" ></span>
-           <span ng-if="!isStar(post)" class="glyphicon glyphicon-star-empty"></span>
+           {{post.createdAt|fromNow}}
          </div>
-         <a ng-href="/posts/show/{{post._id}}" style="font-size: large">{{post.title}}</a>
+         <a ng-href="/posts/show/{{post._id}}" style="font-size: xx-large">{{post.title}}</a>
+         <small>Requested by <a ng-href="/users/{{post.user._id}}">{{post.user.name}}</a></small>
+         <div><span ng-repeat="tag in post.tags">
+           <span class="label label-info">
+             {{tag.text}}
+           </span>
+           &nbsp;
+         </span>
+       </div>
+         <div class="indexDescription">
+           {{post.description}}
+         </div>
+         <br>
          <div class="clearfix"></div>
          <div style="float: right;">
-           by <a ng-href="/users/{{post.user._id}}">{{post.user.name}}</a>
-            · {{post.createdAt|fromNow}}
+          <!-- Posted by <a ng-href="/users/{{post.user._id}}">{{post.user.name}}</a> -->
+      {{post.location}},${{post.price}}
          </div>
          <div>
-           <span ng-repeat="tag in post.tags">
-             <span class="label label-info">
-               {{tag.text}}
-             </span>
-             &nbsp;
+           <span>
+                <button ng-if=" isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="unlike(post)">
+                     <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
+                   </button>
+                   <button ng-if="!isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="like(post)"  >
+                     <span class="glyphicon glyphicon-heart-empty"></span>Like
+                   </button>
+           </span>
+           <span>
+             <button type="button" style="background: transparent; border: 0;" ng-click="commentScroll(post)">
+                  <span class="glyphicon glyphicon-envelope" ></span>
+                  Comment ({{post.comments.length}})
+                </button>
+           </span>
+           <span>
+             <button type="button" style="background: transparent; border: 0;">
+                  <span class="glyphicon glyphicon-envelope" ></span>Share
+                </button>
+           </span>
+           <span>
+             <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport(post)">
+                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+                </button>
+                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post)"  >
+                  <span class="glyphicon glyphicon-warning-sign"></span>Report
+                </button>
            </span>
          </div>
          <div class="clearfix"></div>
@@ -52,5 +85,6 @@
      </tr>
    </tbody>
  </table>
+ </div>
  <div ng-show='busy'>Loading data...</div>
 </div>

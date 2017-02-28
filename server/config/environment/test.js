@@ -5,20 +5,20 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/code-test'
-  },
-  sequelize: {
-    uri: uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://test:test123@ds053206.mlab.com:53206/heroku_8kqdbk2s',
+    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://test:test123@ds053206.mlab.com:53206/heroku_8kqdbk2s',
     options: {
       user: 'test',
       pass: 'test123'
-    },
-    // options: {
-    //   logging: false,
-    //   storage: 'test.sqlite',
-    //   define: {
-    //     timestamps: false
-    //   }
-    // }
-  }
+  						},
+			},
 };
+//   sequelize: {
+//     options: {
+//       logging: false,
+//       storage: 'test.sqlite',
+//       define: {
+//         timestamps: false
+//       }
+//     }
+//   }
+// };
