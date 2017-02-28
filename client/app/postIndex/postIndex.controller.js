@@ -82,8 +82,15 @@ angular.module('codeApp')
     $http.post('/api/posts/send').success(function(){
     });
   };
-  $scope.sharePost = function(obj,size) {
-    $http.post('/api/posts/share').success(function(){
+  $scope.sharePost = function(obj) {
+    var data = ({
+      fromUser: Auth.getCurrentUser(),
+      toEmail: '',
+      sharedPost: obj,
+    });
+
+    $http.post('/api/posts/share',data).success(function(){
+    loadPosts();
     });
   };
 

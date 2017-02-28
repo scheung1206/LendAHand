@@ -67,6 +67,15 @@
                 </button>
            </span>
            <span>
+
+             <form name="shareForm" data-ng-submit="sharePost(post)">
+               <md-input-container>
+                 <label>Email to share to</label>
+                 <input type="text" data-ng-model="shareEmail">
+               </md-input-container>
+               <button type="submit"> Send </button>
+             </form>
+
              <button type="button" style="background: transparent; border: 0;">
                   <span class="glyphicon glyphicon-envelope" ></span>Share
                 </button>

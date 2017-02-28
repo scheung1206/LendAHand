@@ -16,8 +16,8 @@ import nodemailer from 'nodemailer';
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: '',
-        pass: ''
+        user: 'scheung1206@gmail.com',
+        pass: 'Seumdwa55'
     }
 }, {
     // default values for sendMail method
@@ -226,6 +226,7 @@ export function unreportComment(req, res) {
     exports.show(req, res);
   });
 }
+//Send an email when the report button is pressed
 export function sendMail(req, res) {
   transporter.sendMail({
     from: 'scheung1206@gmail.com',
@@ -234,11 +235,19 @@ export function sendMail(req, res) {
     text: 'Hello World'
   });
 }
-export function sharePost(req, res) {//
+//Send email to shared emails
+export function sharePost(req, res) {
+  var data = req.body;
+
   transporter.sendMail({
-    from: 'scheung1206@gmail.com',
-    to: 'scheung1206@gmail.com',
-    subject: 'Hello',
-    text: 'Hello World'
+    from: data.fromUser.email,
+    to: 'scheung1206@gmail.com',//data.toEmail,
+    subject: 'LendAHand Recommendation - ' + data.sharedPost.title,
+    text: 'New service recommendation from ' + data.fromUser.name + '\n\n' +
+    'Title: ' + data.sharedPost.title + '\n' +
+    'Description: ' + data.sharedPost.description + '\n\n' +
+    'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.sharedPost._id
   });
+
+    alert('SENT');
 }
