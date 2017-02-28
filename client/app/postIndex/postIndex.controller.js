@@ -55,4 +55,27 @@ angular.module('codeApp')
         $scope.busy = false;
         });
     };
+    $scope.isReport = function(obj){
+    return Auth.isLoggedIn() && obj && obj.reports && obj.reports.indexOf(Auth.getCurrentUser()._id)!==-1;
+  };
+
+  $scope.report = function(obj) {
+    $http.put('/api/posts/' + obj._id  + '/report').success(function(){
+      loadPosts();
+      if(obj.reports.length > 0){
+        //Posts.destroy(obj);
+      }
+    });
+  };
+  $scope.unreport = function(obj) {
+    $http.delete('/api/posts/' + obj._id  + '/report').success(function(){
+      loadPosts();
+    });
+  };
+  $scope.commentScroll = function(obj) {
+    $http.get('/posts/show/' + obj._id).success(function(){
+      $location.path('/posts/show/' + obj._id);
+    });
+  };
+
   });

@@ -27,6 +27,10 @@ var PostSchema = new mongoose.Schema({
       type: mongoose.Schema.ObjectId,
       ref: 'User'
     }],
+    reports: [{
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+      }],
   }],
   tags: [{
     text:String,
@@ -42,6 +46,10 @@ var PostSchema = new mongoose.Schema({
   likes: [{
       type: mongoose.Schema.ObjectId,
       ref: 'User'
+    }],
+  reports: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
     }],
 });
 

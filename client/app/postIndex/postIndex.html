@@ -1,7 +1,7 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>LendAHand</h1>
-    <p class="lead">Kick-Liket your next web app with Angular Fullstack</p>
+    <p class="lead">Kick-Start your next web app with Angular Fullstack</p>
     <img src="assets/images/yeoman.png" alt="I'm Yeoman">
   </div>
 </header>
@@ -49,7 +49,7 @@
          <div class="clearfix"></div>
          <div style="float: right;">
           <!-- Posted by <a ng-href="/users/{{post.user._id}}">{{post.user.name}}</a> -->
-          {{post.location}} , ${{post.price}}
+      {{post.location}},${{post.price}}
          </div>
          <div>
            <span>
@@ -61,19 +61,22 @@
                    </button>
            </span>
            <span>
-             <button type="button" style="background: transparent; border: 0;">
-                  <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>
+             <button type="button" style="background: transparent; border: 0;" ng-click="commentScroll(post)">
+                  <span class="glyphicon glyphicon-envelope" ></span>
                   Comment ({{post.comments.length}})
                 </button>
            </span>
            <span>
              <button type="button" style="background: transparent; border: 0;">
-                  <span class="glyphicon glyphicon-envelope" style="color: #CF7C00;" ></span>Share
+                  <span class="glyphicon glyphicon-envelope" ></span>Share
                 </button>
            </span>
            <span>
-             <button type="button" style="background: transparent; border: 0;">
-                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Report
+             <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport(post)">
+                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+                </button>
+                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post)"  >
+                  <span class="glyphicon glyphicon-warning-sign"></span>Report
                 </button>
            </span>
          </div>

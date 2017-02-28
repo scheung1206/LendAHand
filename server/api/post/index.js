@@ -22,4 +22,9 @@ router.delete('/:id/like', auth.isAuthenticated(), controller.unlike);
 router.put('/:id/comments/:commentId/like', auth.isAuthenticated(), controller.likeComment);
 router.delete('/:id/comments/:commentId/like', auth.isAuthenticated(), controller.unlikeComment);
 
+router.put('/:id/report', auth.isAuthenticated(), controller.report);
+router.delete('/:id/report', auth.isAuthenticated(), controller.unreport);
+router.put('/:id/comments/:commentId/report', auth.isAuthenticated(), controller.reportComment);
+router.delete('/:id/comments/:commentId/report', auth.isAuthenticated(), controller.unreportComment);
+
 module.exports = router;
