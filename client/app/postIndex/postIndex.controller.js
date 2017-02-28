@@ -85,7 +85,7 @@ angular.module('codeApp')
   $scope.sharePost = function(obj) {
     var data = ({
       fromUser: Auth.getCurrentUser(),
-      toEmail: '',
+      toEmail: '',//this.shareEmail,
       sharedPost: obj,
     });
 
