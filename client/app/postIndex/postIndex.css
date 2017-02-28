@@ -60,15 +60,17 @@
 }
 
 .indexLocation {
-  max-width: 50px;
+  max-width: 200px;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: wrap;
   text-overflow: ellipsis;
+  display: block;
 }
 
 .indexPrice {
   max-width: 150px;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: wrap;
   text-overflow: ellipsis;
+  display: block;
 }

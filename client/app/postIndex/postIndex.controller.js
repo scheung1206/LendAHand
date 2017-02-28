@@ -62,11 +62,19 @@ angular.module('codeApp')
   $scope.report = function(obj) {
     $http.put('/api/posts/' + obj._id  + '/report').success(function(){
       loadPosts();
+      if(obj.reports.length > 0){
+        //Posts.destroy(obj);
+      }
     });
   };
   $scope.unreport = function(obj) {
     $http.delete('/api/posts/' + obj._id  + '/report').success(function(){
       loadPosts();
+    });
+  };
+  $scope.commentScroll = function(obj) {
+    $http.get('/posts/show/' + obj._id).success(function(){
+      $location.path('/posts/show/' + obj._id);
     });
   };
 
