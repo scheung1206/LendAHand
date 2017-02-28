@@ -45,6 +45,7 @@ function removeEntity(res) {
 function handleEntityNotFound(res) {
   return function(entity) {
     if (!entity) {
+      console.log("Profile Entity not found...");
       res.status(404).end();
       return null;
     }
@@ -76,6 +77,8 @@ export function show(req, res) {
 
 // Creates a new Profile in the DB
 export function create(req, res) {
+  console.log('Inside profile create');
+  req.body.user = req.user;
   Profile.createAsync(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));

@@ -5,9 +5,9 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var ProfileSchema = new mongoose.Schema({
   profileName: String,
   skills: String,
-  active: Boolean,
-  transactionHistory: String,
-  photo: String,
+  //active: Boolean,
+  //transactionHistory: String,
+  //photo: String,
   aboutMe: String,
   location: String,
     createdAt: {
