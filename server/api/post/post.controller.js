@@ -12,6 +12,21 @@
 import _ from 'lodash';
 import Post from './post.model';
 
+import nodemailer from 'nodemailer';
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'scheung1206@gmail.com',
+        pass: 'Seumdwa55'
+    }
+}, {
+    // default values for sendMail method
+    from: 'sender@address',
+    headers: {
+        'My-Awesome-Header': '123'
+    }
+});
+
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -209,5 +224,21 @@ export function unreportComment(req, res) {
     if(err) { return handleError(res)(err); }
     if(num === 0) { return res.send(404).end(); }
     exports.show(req, res);
+  });
+}
+export function sendMail(req, res) {
+  transporter.sendMail({
+    from: 'scheung1206@gmail.com',
+    to: 'scheung1206@gmail.com',
+    subject: 'Hello',
+    text: 'Hello World'
+  });
+}
+export function sharePost(req, res) {//
+  transporter.sendMail({
+    from: 'scheung1206@gmail.com',
+    to: 'scheung1206@gmail.com',
+    subject: 'Hello',
+    text: 'Hello World'
   });
 }

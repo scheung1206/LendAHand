@@ -62,6 +62,7 @@ angular.module('codeApp')
   $scope.report = function(obj) {
     $http.put('/api/posts/' + obj._id  + '/report').success(function(){
       loadPosts();
+      alert('Post Reported!');
       if(obj.reports.length > 0){
         //Posts.destroy(obj);
       }
@@ -77,5 +78,10 @@ angular.module('codeApp')
       $location.path('/posts/show/' + obj._id);
     });
   };
+  $scope.sendMail = function(obj) {
+    $http.post('/api/posts/send').success(function(){
+    });
+  };
+
 
   });
