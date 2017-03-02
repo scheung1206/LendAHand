@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('codeApp')
-  .controller('PostIndexCtrl', function ($scope,$http, $location,Auth,query) {
+  .controller('PostIndexCtrl', function ($scope,$http, $location,Auth,query, $modal,$document, $log) {
     var keyword = $location.search().keyword;
     if(keyword){
       query = _.merge(query, {$text: {$search: keyword}});
@@ -62,6 +62,7 @@ angular.module('codeApp')
   $scope.report = function(obj) {
     $http.put('/api/posts/' + obj._id  + '/report').success(function(){
       loadPosts();
+      alert('Post Reported!');
       if(obj.reports.length > 0){
         //Posts.destroy(obj);
       }
@@ -77,5 +78,70 @@ angular.module('codeApp')
       $location.path('/posts/show/' + obj._id);
     });
   };
+  $scope.sendMail = function(obj) {
+    $http.post('/api/posts/send').success(function(){
+    });
+  };
+//   $scope.sharePost = function(obj) {
+//     var data = ({
+//       fromUser: Auth.getCurrentUser(),
+//       toEmail: '',//this.shareEmail,
+//       sharedPost: obj,
+//     });
+// console.log('LOLOLOLOL');
+//     $http.post('/api/posts/share',data).success(function(){
+//     loadPosts();
+//     });
+//   };
+
+  $scope.shareModal = function (size, selectedPost) {
+    console.log('LOLOLOLOL');
+   //var parentElem = selectedPost ?
+     //angular.element($document[0].querySelector('.modal-demo ' + selectedPost)) : undefined;
+  var modalInstance = $modal.open({
+    animation: $scope.animationsEnabled,
+    // ariaLabelledBy: 'modal-title',
+    // ariaDescribedBy: 'modal-body',
+    templateUrl: 'app/sharePost.html',
+    controller: function ($scope, $modalInstance, post){
+      $scope.post = post;
+      $scope.shareEmail = 'me@example.com';
+      $scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+      console.log(post);
+      $scope.ok = function () {
+    $modalInstance.close($scope.post);
+      };
+      //Share Post by Email
+      $scope.sharePost = function(obj) {
+        var data = ({
+          fromUser: Auth.getCurrentUser(),
+          toEmail: this.shareEmail,
+          sharedPost: obj,
+        });
+        $http.post('/api/posts/share',data).success(function(){
+        alert('Email Sent!');
+        });
+      };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+      };
+    },
+    //controllerAs: '$ctrl',
+    size: size,
+    //appendTo: parentElem,
+    resolve: {
+      post: function () {
+        return selectedPost;
+      }
+    }
+  });
+
+  modalInstance.result.then(function (selectedItem) {
+    $scope.selected = selectedItem;
+  }, function () {
+    $log.info('Modal dismissed at: ' + new Date());
+  });
+};
 
   });

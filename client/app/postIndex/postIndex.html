@@ -67,15 +67,16 @@
                 </button>
            </span>
            <span>
-             <button type="button" style="background: transparent; border: 0;">
+
+             <button type="button" style="background: transparent; border: 0;" ng-click="shareModal('sm',post)">
                   <span class="glyphicon glyphicon-envelope" ></span>Share
                 </button>
            </span>
            <span>
              <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport(post)">
-                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+                  <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Report
                 </button>
-                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post)"  >
+                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post); sendMail()"  >
                   <span class="glyphicon glyphicon-warning-sign"></span>Report
                 </button>
            </span>

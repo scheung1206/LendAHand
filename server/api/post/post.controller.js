@@ -12,6 +12,21 @@
 import _ from 'lodash';
 import Post from './post.model';
 
+import nodemailer from 'nodemailer';
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'scheung1206@gmail.com',
+        pass: ''
+    }
+}, {
+    // default values for sendMail method
+    from: 'sender@address',
+    headers: {
+        'My-Awesome-Header': '123'
+    }
+});
+
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -209,5 +224,28 @@ export function unreportComment(req, res) {
     if(err) { return handleError(res)(err); }
     if(num === 0) { return res.send(404).end(); }
     exports.show(req, res);
+  });
+}
+//Send an email when the report button is pressed
+export function sendMail(req, res) {
+  transporter.sendMail({
+    from: 'scheung1206@gmail.com',
+    to: 'scheung1206@gmail.com',
+    subject: 'Hello',
+    text: 'Hello World'
+  });
+}
+//Send email to shared emails
+export function sharePost(req, res) {
+  var data = req.body;
+
+  transporter.sendMail({
+    from: data.fromUser.email,
+    to: data.toEmail,
+    subject: 'LendAHand Recommendation - ' + data.sharedPost.title,
+    text: 'New service recommendation from ' + data.fromUser.name + '\n\n' +
+    'Title: ' + data.sharedPost.title + '\n' +
+    'Description: ' + data.sharedPost.description + '\n\n' +
+    'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.sharedPost._id
   });
 }

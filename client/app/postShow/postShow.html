@@ -48,13 +48,13 @@
         </button>
       </span>
       <span>
-        <button type="button" style="background: transparent; border: 0;">
+        <button type="button" style="background: transparent; border: 0;" ng-click="commentScroll(post)">
              <span class="glyphicon glyphicon-envelope" ></span>
              Comment ({{post.comments.length}})
            </button>
       </span>
       <span>
-        <button type="button" style="background: transparent; border: 0;">
+        <button type="button" style="background: transparent; border: 0;" ng-click="shareModal('sm',post)">
              <span class="glyphicon glyphicon-envelope" ></span>Share
            </button>
       </span>
