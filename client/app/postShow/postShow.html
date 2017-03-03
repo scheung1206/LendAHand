@@ -163,7 +163,7 @@ Like
 </div>
 <h3>Your comment</h3>
 <div>
-<form name="commentForm" ng-submit="submitComment()">
+<form name="commentForm" ng-submit="submitComment();newCommentMail(post,newComment)">
   <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="newComment.content" name="commentEditor" required></textarea>
 <br>
    <input type="submit" class="btn btn-primary" ng-disabled="commentForm.$invalid" value="Submit your comment">

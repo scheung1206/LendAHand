@@ -30,4 +30,6 @@ router.delete('/:id/comments/:commentId/report', auth.isAuthenticated(), control
 router.post('/send', auth.isAuthenticated(),controller.reportMail);
 router.post('/share', auth.isAuthenticated(),controller.sharePost);
 router.post('/reportComment', auth.isAuthenticated(),controller.reportCommentMail);
+router.post('/newComment', auth.isAuthenticated(),controller.newCommentMail);
+
 module.exports = router;

@@ -98,6 +98,18 @@ angular.module('codeApp')
       });
     };
 
+    $scope.newCommentMail = function(post,comment) {
+      console.log(post.user);
+      var data = ({
+        fromUser: Auth.getCurrentUser(),
+        //toEmail: this.shareEmail,
+        thePost: post,
+        theComment: comment,
+      });
+      $http.post('/api/posts/newComment',data).success(function(){
+      });
+    };
+
 
     $scope.shareModal = function (size, selectedPost) {
       console.log('LOLOLOLOL');

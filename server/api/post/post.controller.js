@@ -253,7 +253,19 @@ export function reportCommentMail(req, res) {
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
   });
 }
-
+export function newCommentMail(req, res) {
+  var data = req.body;
+  console.log(data);
+  transporter.sendMail({
+    from: data.fromUser.email,//'scheung1206@gmail.com',
+    to: data.thePost.user.email,
+    subject: 'LendAHand Service Comment - ' + data.thePost.title,
+    text: 'New service comment from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' +
+    'Comment: ' + data.theComment.content + '\n\n' +
+    //'Description: ' + data.reportedPost.description + '\n\n' +
+    'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.thePost._id
+  });
+}
 //Send email to shared emails
 export function sharePost(req, res) {
   var data = req.body;
