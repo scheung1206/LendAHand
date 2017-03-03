@@ -62,7 +62,7 @@
         <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport('')">
           <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
         </button>
-        <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report('')"  >
+        <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report('');reportMail(post)"  >
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span>
@@ -152,7 +152,7 @@ Like
         <button ng-if=" isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/comments/' + comment._id)">
           <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
         </button>
-        <button ng-if="!isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="  report('/comments/' + comment._id)"  >
+        <button ng-if="!isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="  report('/comments/' + comment._id);reportCommentMail(post,comment)"  >
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span>

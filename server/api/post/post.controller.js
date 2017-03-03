@@ -16,8 +16,8 @@ import nodemailer from 'nodemailer';
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'scheung1206@gmail.com',
-        pass: ''
+        user: 'mail.lendahand@gmail.com',//'scheung1206@gmail.com',
+        pass: 'lendahand123'
     }
 }, {
     // default values for sendMail method
@@ -227,14 +227,33 @@ export function unreportComment(req, res) {
   });
 }
 //Send an email when the report button is pressed
-export function sendMail(req, res) {
+export function reportMail(req, res) {
+  var data = req.body;
+
   transporter.sendMail({
-    from: 'scheung1206@gmail.com',
-    to: 'scheung1206@gmail.com',
-    subject: 'Hello',
-    text: 'Hello World'
+    from: data.fromUser.email,//'scheung1206@gmail.com',
+    to: 'mail.lendahand@gmail.com',
+    subject: 'LendAHand Report Notification - ' + data.reportedPost.title,
+    text: 'New service report from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' +
+    'Title: ' + data.reportedPost.title + '\n' +
+    'Description: ' + data.reportedPost.description + '\n\n' +
+    'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
   });
 }
+export function reportCommentMail(req, res) {
+  var data = req.body;
+
+  transporter.sendMail({
+    from: data.fromUser.email,//'scheung1206@gmail.com',
+    to: 'mail.lendahand@gmail.com',
+    subject: 'LendAHand Report Notification - ' + data.reportedPost.title,
+    text: 'New comment report from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' +
+    'Commenter: ' + data.reportedComment.user.name + '\n' +
+    'Content: ' + data.reportedComment.content + '\n\n' +
+    'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
+  });
+}
+
 //Send email to shared emails
 export function sharePost(req, res) {
   var data = req.body;
@@ -243,7 +262,7 @@ export function sharePost(req, res) {
     from: data.fromUser.email,
     to: data.toEmail,
     subject: 'LendAHand Recommendation - ' + data.sharedPost.title,
-    text: 'New service recommendation from ' + data.fromUser.name + '\n\n' +
+    text: 'New service recommendation from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' +
     'Title: ' + data.sharedPost.title + '\n' +
     'Description: ' + data.sharedPost.description + '\n\n' +
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.sharedPost._id

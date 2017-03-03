@@ -76,7 +76,7 @@
              <button ng-if=" isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="unreport(post)">
                   <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Report
                 </button>
-                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post); sendMail()"  >
+                <button ng-if="!isReport(post)" type="button" style="background: transparent; border: 0;" ng-click="report(post); reportMail(post)"  >
                   <span class="glyphicon glyphicon-warning-sign"></span>Report
                 </button>
            </span>

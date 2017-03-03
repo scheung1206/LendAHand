@@ -78,8 +78,13 @@ angular.module('codeApp')
       $location.path('/posts/show/' + obj._id);
     });
   };
-  $scope.sendMail = function(obj) {
-    $http.post('/api/posts/send').success(function(){
+  $scope.reportMail = function(obj) {
+    var data = ({
+      fromUser: Auth.getCurrentUser(),
+      //toEmail: this.shareEmail,
+      reportedPost: obj,
+    });
+    $http.post('/api/posts/send',data).success(function(){
     });
   };
 //   $scope.sharePost = function(obj) {

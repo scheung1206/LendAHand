@@ -57,6 +57,13 @@ angular.module('codeApp')
     };
     $scope.report = function(subpath) {
       $http.put('/api/posts/' + $scope.post._id + subpath + '/report').success(function(){
+        if (subpath == '')
+        {
+          alert('Post Reported!');
+        }
+        else {
+          alert('Comment Reported!');
+        }
         loadPosts();
       });
     };
@@ -70,6 +77,27 @@ angular.module('codeApp')
         $location.path('/posts/show/' + obj._id);
       });
     };
+    $scope.reportMail = function(obj) {
+      var data = ({
+        fromUser: Auth.getCurrentUser(),
+        //toEmail: this.shareEmail,
+        reportedPost: obj,
+      });
+      $http.post('/api/posts/send',data).success(function(){
+      });
+    };
+
+    $scope.reportCommentMail = function(post,comment) {
+      var data = ({
+        fromUser: Auth.getCurrentUser(),
+        //toEmail: this.shareEmail,
+        reportedPost: post,
+        reportedComment: comment,
+      });
+      $http.post('/api/posts/reportComment',data).success(function(){
+      });
+    };
+
 
     $scope.shareModal = function (size, selectedPost) {
       console.log('LOLOLOLOL');
