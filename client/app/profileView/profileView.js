@@ -4,8 +4,11 @@ angular.module('codeApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('profileView', {
-        url: '/profile',
+        url: '/profile/:id',
         templateUrl: 'app/profileView/profileView.html',
-        controller: 'ProfileViewCtrl'
+        controller: 'ProfileViewCtrl',
+        sp:{
+    		authenticate: true
+  		}
       });
   });

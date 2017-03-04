@@ -5,6 +5,10 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var ProfileSchema = new mongoose.Schema({
   profileName: String,
   skills: String,
+  hasCreated: {
+  type: Boolean,
+  default: false
+  },
   //active: Boolean,
   //transactionHistory: String,
   //photo: String,
@@ -14,10 +18,6 @@ var ProfileSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
-    createdAt: {
-    type: Date,
-    default: Date.now
-  },
   profileImageURL: {
     type: String,
     default: 'client/assets/images/default.png'
