@@ -17,6 +17,25 @@ var UserSchema = new Schema({
     default: 'user'
   },
   password: String,
+  background: {
+    image: String,
+    biography: {
+      type: String,
+      default: 'Biography',
+    },
+    skills: {
+      type: String,
+      default: 'my skills',
+    },
+    reviews: [{
+      rating: Number,
+      content: String,
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      },
+  }]
+},
   provider: String,
   salt: String,
   facebook: {},
@@ -33,7 +52,9 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'email': this.email,
+      'background': this.background
     };
   });
 

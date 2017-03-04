@@ -1,0 +1,23 @@
+<!-- <form name="shareForm" data-ng-submit="sharePost(post)">
+  <md-input-container>
+    <label>Email to share to</label>
+    <input type="text" data-ng-model="shareEmail">
+  </md-input-container>
+  <button type="submit" ng-click="ok()"> Send </button>
+</form> -->
+
+<!-- <script>
+function Ctrl($scope) {
+  $scope.shareEmail = 'me@example.com';
+  $scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+}
+</script> -->
+        <div class="modal-body" id="modal-body">
+        <span> Email to share to</span>
+            <input type="text" data-ng-model="shareEmail" ng-pattern="emailFormat" required>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit" ng-click="sharePost(post); ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+        <br/><br/>

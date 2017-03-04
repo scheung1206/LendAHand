@@ -25,4 +25,3 @@ export default function(app) {
       res.sendFile(path.resolve(app.get('appPath') + '/index.html'));
     });
 }
-

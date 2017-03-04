@@ -27,4 +27,9 @@ router.delete('/:id/report', auth.isAuthenticated(), controller.unreport);
 router.put('/:id/comments/:commentId/report', auth.isAuthenticated(), controller.reportComment);
 router.delete('/:id/comments/:commentId/report', auth.isAuthenticated(), controller.unreportComment);
 
+router.post('/send', auth.isAuthenticated(),controller.reportMail);
+router.post('/share', auth.isAuthenticated(),controller.sharePost);
+router.post('/reportComment', auth.isAuthenticated(),controller.reportCommentMail);
+router.post('/newComment', auth.isAuthenticated(),controller.newCommentMail);
+
 module.exports = router;
