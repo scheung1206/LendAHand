@@ -19,6 +19,53 @@ function handleError(res, statusCode) {
   };
 }
 
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if (entity) {
+      res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function saveUpdates(updates) {
+  return function(entity) {
+    var updated = _.extend(entity, updates);
+    return updated.saveAsync()
+      .spread(updated => {
+        return updated;
+      });
+  };
+}
+
+function handleEntityNotFound(res) {
+  return function(entity) {
+    if (!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
+function handleError(res, statusCode) {
+  statusCode = statusCode || 500;
+  return function(err) {
+    res.status(statusCode).send(err);
+  };
+}
+
+function handleUnauthorized(req, res) {
+  return function(entity) {
+    if (!entity) {return null;}
+    if(entity.user._id.toString() !== req.user._id.toString()){
+      res.send(403).end();
+      return null;
+    }
+    return entity;
+  }
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -62,6 +109,28 @@ export function show(req, res, next) {
       res.json(user.profile);
     })
     .catch(err => next(err));
+}
+
+export function update(req, res) {
+  console.log(req.body);
+  var userId = req.user._id;
+  var newBio = req.body.background.biography;
+  console.log(newBio);
+  console.log(req.user._id);
+
+  User.findByIdAsync(userId)
+    .then(user => {
+        //console.log(user);
+        //  console.log(req.user);
+
+        user.background.biography = newBio;
+        return user.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(validationError(res));
+
+    });
 }
 
 /**
