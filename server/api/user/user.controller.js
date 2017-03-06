@@ -114,16 +114,21 @@ export function show(req, res, next) {
 export function update(req, res) {
   console.log(req.body);
   var userId = req.user._id;
+  var newName = req.body.name;
   var newBio = req.body.background.biography;
-  console.log(newBio);
+  var newSkills = req.body.background.skills;
+  var newHobbies = req.body.background.hobbies;
+  console.log(newSkills);
   console.log(req.user._id);
 
   User.findByIdAsync(userId)
     .then(user => {
         //console.log(user);
         //  console.log(req.user);
-
+        user.name = newName;
         user.background.biography = newBio;
+        user.background.skills = newSkills;
+        user.background.hobbies = newHobbies;
         return user.saveAsync()
           .then(() => {
             res.status(204).end();

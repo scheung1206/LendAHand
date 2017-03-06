@@ -19,14 +19,14 @@ var UserSchema = new Schema({
   password: String,
   background: {
     image: String,
+    hobbies: String,
     biography: {
       type: String,
       default: 'Biography',
     },
-    skills: {
-      type: String,
-      default: 'my skills',
-    },
+    skills: [{
+      text:String,
+    }],
     reviews: [{
       rating: Number,
       content: String,
@@ -51,6 +51,7 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
+      '_id': this._id,
       'name': this.name,
       'role': this.role,
       'email': this.email,

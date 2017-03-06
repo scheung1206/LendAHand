@@ -1,0 +1,28 @@
+<div class="postForm">
+<form name="form" ng-submit="updateUser(); ok()">
+<h1>Edit Profile</h1>
+<hr>
+  <h2>Name:</h2>
+  <input type="text" class="form-control" ng-model="user.name" name="user_name" required>
+  <span class="text-danger" ng-messages="form.post_title.$error">
+    <span ng-message="required">Required</span>
+  </span>
+  <span class="text-success" ng-show="form.post_title.$valid">OK</span>
+  <br>
+  <h2>Biography:</h2>
+  <textarea style="min-width:100%;min-height:50px;border:solid 1px black" ng-model="user.background.biography"></textarea>
+
+  <h2>Hobbies:</h2>
+  <textarea style="min-width:100%;min-height:50px;border:solid 1px black" ng-model="user.background.hobbies"></textarea>
+
+      <h2>Skills:</h2>
+      <tags-input ng-model="user.background.skills">
+        <!-- <auto-complete source="loadTags($query)"></auto-complete> -->
+      </tags-input>
+<br>
+  <input type="submit" class="btn btn-primary" ng-disabled="form.$invalid" value="Update Profile">
+  <input class="btn btn-primary" style="float: right;" ng-click="cancel()" value="Cancel">
+
+</form>
+<br>
+</div>
