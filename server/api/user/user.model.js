@@ -21,11 +21,19 @@ var UserSchema = new Schema({
     image: String,
     biography: {
       type: String,
-      default: 'Biography',
+      default: 'My Biography',
+    },
+    hobbies: {
+      type: String,
+      default: 'My Hobbies',
+    },
+    location: {
+      type: String,
+      default: 'My Location',
     },
     skills: {
       type: String,
-      default: 'my skills',
+      default: 'My Skills',
     },
     reviews: [{
       rating: Number,

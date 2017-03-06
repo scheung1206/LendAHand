@@ -19,6 +19,7 @@ function handleError(res, statusCode) {
   };
 }
 
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -46,6 +47,50 @@ export function create(req, res, next) {
       res.json({ token });
     })
     .catch(validationError(res));
+}
+
+
+// Update user info
+// export function update (req, res){
+//   var userId = req.user._id;
+//   var newName = req.body.name;
+//   var newSkills = req.body.background.skills;
+//   var newBiography = req.body.background.biography;
+//   var newLocation = req.body.background.location;
+//   User.findByIdAsync(userId) //Modify to accomadate for user updates instead
+//     .then(user => {
+//         user.name = newName;
+//         user.background.skills = newSkills;
+//         user.background.location = newLocation;
+//         user.background.biography = newBiography;
+//         return user.saveAsync()
+//           .then(() => {
+//             res.status(204).end();
+//           })
+//           .catch(validationError(res));
+//     });
+// }
+
+export function update(req, res) { //stevens
+  console.log(req.body);
+  var userId = req.user._id;
+  var newBio = req.body.background.biography;
+  console.log(newBio);
+  console.log(req.user._id);
+
+  User.findByIdAsync(userId)
+    .then(user => {
+        console.log(user);
+          console.log(req.user);
+
+        user.background.biography = newBio;
+        return user.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(validationError(res));
+
+    });
 }
 
 /**
