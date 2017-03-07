@@ -11,17 +11,24 @@
                             <h2>{{user.name}}</h2>
                             <p><strong>Location: </strong>{{user.background.location}}</p>
                             <p><strong>About: </strong>{{user.background.biography}}</p>
-                            <p><strong>Hobbies: </strong> {{user.background.hobbies}} </p>
-                            <p><strong>Skills: </strong> 
-                                <span class="label label-info tags">html5</span>
+                            <p><strong>Hobbies: </strong>{{user.background.hobbies}}</p>
+                            <p><strong>Skills: </strong>
+                              <span ng-repeat="skill in user.background.skills">
+                                <span class="label label-info">{{skill.text}}</span>
+                                &nbsp;
+                              </span>
+                                <!-- <span class="label label-info tags">html5</span>
+>>>>>>> refs/remotes/origin/master
                                 <span class="label label-info tags">css3</span>
                                 <span class="label label-info tags">jquery</span>
-                                <span class="label label-info tags">bootstrap3</span>
+                                <span class="label label-info tags">bootstrap3</span> -->
                             </p>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4 text-center">
                                 <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="" class="center-block img-circle img-responsive">
-                              <small><a ng-href="/profileEdit/{{user._id}}">Edit Profile</a></small>
+                                <button type="button" class="btn btn-primary btn-block" ng-show="user._id == auth._id"ng-click="editModal('lg',user)"><span class="fa fa-gear"></span> Edit Profile </button>
+
+>>>>>>> refs/remotes/origin/master
 
                                 <ul class="list-inline ratings text-center" title="Ratings">
                                   <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>

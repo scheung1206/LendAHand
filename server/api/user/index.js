@@ -17,5 +17,9 @@ router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
+
+router.put('/:id', auth.isAuthenticated(), controller.update);
+router.patch('/:id', auth.isAuthenticated(), controller.update);
+
 export default router;
  
