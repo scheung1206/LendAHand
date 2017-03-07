@@ -35,7 +35,6 @@ var UserSchema = new Schema({
     skills: [{
       text:String,
     }],
->>>>>>> refs/remotes/origin/master
     reviews: [{
       rating: Number,
       content: String,

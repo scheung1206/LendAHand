@@ -66,7 +66,6 @@ function handleUnauthorized(req, res) {
     return entity;
   }
 }
->>>>>>> refs/remotes/origin/master
 
 /**
  * Get list of users
