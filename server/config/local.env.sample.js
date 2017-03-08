@@ -12,6 +12,14 @@ module.exports = {
   FACEBOOK_ID:      'app-id',
   FACEBOOK_SECRET:  'secret',
 
+    // MongoDB connection options
+  mongo: {
+    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://test:test123@ds053206.mlab.com:53206/heroku_8kqdbk2s',
+    options: {
+      user: 'test',
+      pass: 'test123'
+    },
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
