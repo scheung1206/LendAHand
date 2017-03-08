@@ -63,16 +63,30 @@ angular.module('codeApp')
     $http.post('/api/users/' + $stateParams.id + '/reviews', $scope.newReview).success(function(){  
       $scope.newReview = {};
     });
+    $http.get('/api/users/' + $stateParams.id).success(function(user) {
+      $scope.user = user;
+      $scope.auth = Auth.getCurrentUser();
+    });
+    
   };
 
      $scope.deleteReview = function(review) {
      $http.delete('/api/users/' + $stateParams.id + '/reviews/' + review._id).success(function(){
+      $http.get('/api/users/' + $stateParams.id).success(function(user) {
+      $scope.user = user;
+      $scope.auth = Auth.getCurrentUser();
     });
+    });
+
+    
    };
 
     $scope.updateReview = function(review) {
      $http.put('/api/users/' + $stateParams.id + '/reviews/' + review._id, review).success(function(){
-  
+      $http.get('/api/users/' + $stateParams.id).success(function(user) {
+      $scope.user = user;
+      $scope.auth = Auth.getCurrentUser();
+    });
      });
    };
 

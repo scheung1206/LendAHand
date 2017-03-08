@@ -59,7 +59,7 @@
 </div>
 <div class= "col-md-offset-4">
 <form name="reviewForm" ng-submit="submitReview()">
-<textarea placeholder = "Rate on a scale of 0-5" style="min-width:50%;min-height:5px;border:solid 1px black" ng-model="newReview.rating" name="reviewEditor" required></textarea>
+<textarea placeholder = "Rate on a scale of 0-5" style="min-width:50%;height:20px;border:solid 1px black" ng-model="newReview.rating" name="reviewEditor" required></textarea>
 
   <textarea placeholder = "Review" style="min-width:50%;min-height:150px;border:solid 1px black" ng-model="newReview.content" name="reviewEditor" required></textarea>
 <br>
@@ -67,11 +67,13 @@
 </form>
 </div>
 <!-- // -->
+<br>
 <!-- Review Display -->
+<div class= "container" style = "border: solid 1px">
+<br>
 <div ng-repeat="review in user.reviews"> 
   <div class="review">
     <button ng-if="isOwner(review)" type="button" class="close" ng-click="deleteReview(review)">&times;</button>
-
     <pagedown-viewer content="review.content" ng-if="!editing2"><pagedown-viewer>
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="review.content" ng-if=" editing2&&isOwner(review)"></textarea>
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateReview(review)" ng-show=" editing2">Save</button>
@@ -93,9 +95,10 @@
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span> -->
-    <span style="float:right" class="text-right"> by {{review.user}} · {{review.user.createdAt|fromNow}}</span>
+    <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
 
   </div>
   <hr/>
+</div>
 </div>
 
