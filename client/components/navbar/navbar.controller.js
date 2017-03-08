@@ -30,10 +30,6 @@ class NavbarController {
           'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/liked';},
           'show': Auth.isLoggedIn,
         },
-        { 'title': 'Profile',
-          'link': function(){return '/users/' + Auth.getCurrentUser()._id + '/starred';},
-          'show': Auth.isLoggedIn,
-        },
         {
           'title': 'Chatroom',
           'link': function(){return '/chat';},

@@ -8,6 +8,7 @@ angular.module('codeApp')
       $scope.auth = Auth.getCurrentUser();
     });
 
+
     // $scope.updateUser = function(){
     //   $http.put('/api/users/' + $stateParams.id, $scope.user).success(function(){
     //     //console.log('Update CLIENT CONTROLLER');//loadPosts();
@@ -54,6 +55,7 @@ angular.module('codeApp')
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
+
   };
 
 

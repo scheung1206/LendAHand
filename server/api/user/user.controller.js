@@ -118,6 +118,7 @@ export function update(req, res) {
   var newBio = req.body.background.biography;
   var newSkills = req.body.background.skills;
   var newHobbies = req.body.background.hobbies;
+  var newImage = req.body.background.image;
   console.log(newSkills);
   console.log(req.user._id);
 
@@ -129,6 +130,7 @@ export function update(req, res) {
         user.background.biography = newBio;
         user.background.skills = newSkills;
         user.background.hobbies = newHobbies;
+        user.background.image = newImage;
         return user.saveAsync()
           .then(() => {
             res.status(204).end();

@@ -55,6 +55,7 @@ angular.module('codeApp')
         $scope.busy = false;
         });
     };
+
     $scope.isReport = function(obj){
     return Auth.isLoggedIn() && obj && obj.reports && obj.reports.indexOf(Auth.getCurrentUser()._id)!==-1;
   };

@@ -141,6 +141,7 @@ export function destroy(req, res) {
 
 export function createComment(req, res) {
   req.body.user = req.user;
+  console.log(req.body);
   Post.update({_id: req.params.id}, {$push: {comments: req.body}}, function(err, num) {
     if(err) { return handleError(res)(err); }
     if(num === 0) { return res.send(404).end(); }
