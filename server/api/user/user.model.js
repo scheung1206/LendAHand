@@ -16,7 +16,7 @@ var UserSchema = new Schema({
       user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
-      }, 
+      },
       createdAt: {
       type: Date,
       default: Date.now,
@@ -38,10 +38,6 @@ var UserSchema = new Schema({
     biography: {
       type: String,
       default: 'My Biography',
-    },
-    hobbies: {
-      type: String,
-      default: 'My Hobbies',
     },
     location: {
       type: String,

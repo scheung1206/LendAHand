@@ -12,13 +12,13 @@
                             <p><strong>Hobbies: </strong>{{user.background.hobbies}}</p>
                             <p><strong>Skills: </strong>
                               <span ng-repeat="skill in user.background.skills">
-                                <span class="label label-info">{{skill.text}}</span>
+                                <a href="../?keyword={{skill.text}}"><span class="label label-info">{{skill.text}}</span></a>
                                 &nbsp;
                               </span>
                             </p>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4 text-center">
-                                <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="" class="center-block img-circle img-responsive">
+                                <img src="/assets/images/default.png" alt="" class="center-block img-circle img-responsive">
                                 <button type="button" class="btn btn-primary btn-block" ng-show="user._id == auth._id" ng-click="editModal('lg',user)"><span class="fa fa-gear"></span> Edit Profile </button>
                                 <ul class="list-inline ratings text-center" title="Ratings">
                                   <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
@@ -30,19 +30,19 @@
                         </div><!--/col-->
 
                         <div class="col-xs-12 col-sm-4">
-                            <h2><strong> 20,7K </strong></h2>
-                            <p><small>Followers</small></p>
-                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Follow </button>
+                            <!-- <h2><strong> 20,7K </strong></h2>
+                            <p><small>Followers</small></p> -->
+                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4">
-                            <h2><strong>245</strong></h2>
-                            <p><small>Following</small></p>
-                            <button class="btn btn-info btn-block"><span class="fa fa-user"></span> View Profile </button>
+                            <!-- <h2><strong>245</strong></h2>
+                            <p><small>Following</small></p> -->
+                            <a href="../users/{{user._id}}"><button class="btn btn-info btn-block"><span class="fa fa-user"></span> Posts </button></a>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4">
-                            <h2><strong>43</strong></h2>
-                            <p><small>Snippets</small></p>
-                            <button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Options </button>
+                            <!-- <h2><strong>43</strong></h2>
+                            <p><small>Snippets</small></p> -->
+                            <a href="../users/{{user._id}}/liked"><button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Liked </button></a>
                         </div><!--/col-->
               		</div><!--/row-->
               </div><!--/panel-body-->
@@ -69,9 +69,9 @@
 <!-- // -->
 <br>
 <!-- Review Display -->
-<div class= "container" style = "border: solid 1px">
+<div class= "container" id = "profile-view-container">
 <br>
-<div ng-repeat="review in user.reviews"> 
+<div ng-repeat="review in user.reviews">
   <div class="review">
     <button ng-if="isOwner(review)" type="button" class="close" ng-click="deleteReview(review)">&times;</button>
     <pagedown-viewer content="review.content" ng-if="!editing2"><pagedown-viewer>
@@ -101,4 +101,3 @@
   <hr/>
 </div>
 </div>
-

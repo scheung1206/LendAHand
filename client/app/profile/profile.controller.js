@@ -3,14 +3,19 @@
 angular.module('codeApp')
   .controller('ProfileCtrl', function ($http,$scope,Auth,$stateParams, $modal, $log) {
     //$scope.user = $stateParams.id//Auth.getCurrentUser();
-    
+
     $http.get('/api/users/' + $stateParams.id).success(function(user) {
       $scope.user = user;
       $scope.auth = Auth.getCurrentUser();
     });
-    
+
     $scope.newReview = {};
 
+    // $scope.updateUser = function(){
+    //   $http.put('/api/users/' + $stateParams.id, $scope.user).success(function(){
+    //     //console.log('Update CLIENT CONTROLLER');//loadPosts();
+    //   });
+    // }
 
     $scope.editModal = function (size, selectedUser) {
       console.log('LOLOLOLOL');
@@ -52,6 +57,7 @@ angular.module('codeApp')
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
+
   };
 
      $scope.isOwner = function(obj){
@@ -60,14 +66,14 @@ angular.module('codeApp')
 
     //ADD Client side controller && HTML code!!
     $scope.submitReview = function() {
-    $http.post('/api/users/' + $stateParams.id + '/reviews', $scope.newReview).success(function(){  
+    $http.post('/api/users/' + $stateParams.id + '/reviews', $scope.newReview).success(function(){
       $scope.newReview = {};
     });
     $http.get('/api/users/' + $stateParams.id).success(function(user) {
       $scope.user = user;
       $scope.auth = Auth.getCurrentUser();
     });
-    
+
   };
 
      $scope.deleteReview = function(review) {
@@ -78,7 +84,7 @@ angular.module('codeApp')
     });
     });
 
-    
+
    };
 
     $scope.updateReview = function(review) {
