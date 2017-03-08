@@ -8,6 +8,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.index = index;
 exports.create = create;
 exports.show = show;
+exports.update = update;
 exports.destroy = destroy;
 exports.changePassword = changePassword;
 exports.me = me;
@@ -40,6 +41,54 @@ function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function (err) {
     res.status(statusCode).send(err);
+  };
+}
+
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function (entity) {
+    if (entity) {
+      res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function saveUpdates(updates) {
+  return function (entity) {
+    var updated = _.extend(entity, updates);
+    return updated.saveAsync().spread(function (updated) {
+      return updated;
+    });
+  };
+}
+
+function handleEntityNotFound(res) {
+  return function (entity) {
+    if (!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
+function handleError(res, statusCode) {
+  statusCode = statusCode || 500;
+  return function (err) {
+    res.status(statusCode).send(err);
+  };
+}
+
+function handleUnauthorized(req, res) {
+  return function (entity) {
+    if (!entity) {
+      return null;
+    }
+    if (entity.user._id.toString() !== req.user._id.toString()) {
+      res.send(403).end();
+      return null;
+    }
+    return entity;
   };
 }
 
@@ -84,6 +133,29 @@ function show(req, res, next) {
     res.json(user.profile);
   })['catch'](function (err) {
     return next(err);
+  });
+}
+
+function update(req, res) {
+  console.log(req.body);
+  var userId = req.user._id;
+  var newName = req.body.name;
+  var newBio = req.body.background.biography;
+  var newSkills = req.body.background.skills;
+  var newHobbies = req.body.background.hobbies;
+  console.log(newSkills);
+  console.log(req.user._id);
+
+  _userModel2['default'].findByIdAsync(userId).then(function (user) {
+    //console.log(user);
+    //  console.log(req.user);
+    user.name = newName;
+    user.background.biography = newBio;
+    user.background.skills = newSkills;
+    user.background.hobbies = newHobbies;
+    return user.saveAsync().then(function () {
+      res.status(204).end();
+    })['catch'](validationError(res));
   });
 }
 

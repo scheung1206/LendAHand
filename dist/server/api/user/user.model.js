@@ -27,6 +27,25 @@ var UserSchema = new _mongoose.Schema({
     'default': 'user'
   },
   password: String,
+  background: {
+    image: String,
+    hobbies: String,
+    biography: {
+      type: String,
+      'default': 'Biography'
+    },
+    skills: [{
+      text: String
+    }],
+    reviews: [{
+      rating: Number,
+      content: String,
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      }
+    }]
+  },
   provider: String,
   salt: String,
   facebook: {},
@@ -40,8 +59,11 @@ var UserSchema = new _mongoose.Schema({
 // Public profile information
 UserSchema.virtual('profile').get(function () {
   return {
+    '_id': this._id,
     'name': this.name,
-    'role': this.role
+    'role': this.role,
+    'email': this.email,
+    'background': this.background
   };
 });
 

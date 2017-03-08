@@ -26,6 +26,14 @@ exports.like = like;
 exports.unlike = unlike;
 exports.likeComment = likeComment;
 exports.unlikeComment = unlikeComment;
+exports.report = report;
+exports.unreport = unreport;
+exports.reportComment = reportComment;
+exports.unreportComment = unreportComment;
+exports.reportMail = reportMail;
+exports.reportCommentMail = reportCommentMail;
+exports.newCommentMail = newCommentMail;
+exports.sharePost = sharePost;
 
 var _lodash = require('lodash');
 
@@ -34,6 +42,24 @@ var _lodash2 = _interopRequireDefault(_lodash);
 var _postModel = require('./post.model');
 
 var _postModel2 = _interopRequireDefault(_postModel);
+
+var _nodemailer = require('nodemailer');
+
+var _nodemailer2 = _interopRequireDefault(_nodemailer);
+
+var transporter = _nodemailer2['default'].createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'mail.lendahand@gmail.com', //'scheung1206@gmail.com',
+    pass: 'lendahand123'
+  }
+}, {
+  // default values for sendMail method
+  from: 'sender@address',
+  headers: {
+    'My-Awesome-Header': '123'
+  }
+});
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -223,6 +249,106 @@ function unlikeComment(req, res) {
       return res.send(404).end();
     }
     exports.show(req, res);
+  });
+}
+
+function report(req, res) {
+  _postModel2['default'].update({ _id: req.params.id }, { $push: { reports: req.user.id } }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
+function unreport(req, res) {
+  _postModel2['default'].update({ _id: req.params.id }, { $pull: { reports: req.user.id } }, function (err, num) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
+/* report/unreport comment */
+
+function reportComment(req, res) {
+  _postModel2['default'].update({ _id: req.params.id, 'comments._id': req.params.commentId }, { $push: { 'comments.$.reports': req.user.id } }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
+function unreportComment(req, res) {
+  _postModel2['default'].update({ _id: req.params.id, 'comments._id': req.params.commentId }, { $pull: { 'comments.$.reports': req.user.id } }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
+//Send an email when the report button is pressed
+
+function reportMail(req, res) {
+  var data = req.body;
+
+  transporter.sendMail({
+    from: data.fromUser.email, //'scheung1206@gmail.com',
+    to: 'mail.lendahand@gmail.com',
+    subject: 'LendAHand Report Notification - ' + data.reportedPost.title,
+    text: 'New service report from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' + 'Title: ' + data.reportedPost.title + '\n' + 'Description: ' + data.reportedPost.description + '\n\n' + 'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
+  });
+}
+
+function reportCommentMail(req, res) {
+  var data = req.body;
+
+  transporter.sendMail({
+    from: data.fromUser.email, //'scheung1206@gmail.com',
+    to: 'mail.lendahand@gmail.com',
+    subject: 'LendAHand Report Notification - ' + data.reportedPost.title,
+    text: 'New comment report from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' + 'Commenter: ' + data.reportedComment.user.name + '\n' + 'Content: ' + data.reportedComment.content + '\n\n' + 'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
+  });
+}
+
+function newCommentMail(req, res) {
+  var data = req.body;
+  console.log(data);
+  transporter.sendMail({
+    from: data.fromUser.email, //'scheung1206@gmail.com',
+    to: data.thePost.user.email,
+    subject: 'LendAHand Service Comment - ' + data.thePost.title,
+    text: 'New service comment from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' + 'Comment: ' + data.theComment.content + '\n\n' +
+    //'Description: ' + data.reportedPost.description + '\n\n' +
+    'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.thePost._id
+  });
+}
+
+//Send email to shared emails
+
+function sharePost(req, res) {
+  var data = req.body;
+
+  transporter.sendMail({
+    from: data.fromUser.email,
+    to: data.toEmail,
+    subject: 'LendAHand Recommendation - ' + data.sharedPost.title,
+    text: 'New service recommendation from ' + data.fromUser.name + ' - ' + data.fromUser.email + '\n\n' + 'Title: ' + data.sharedPost.title + '\n' + 'Description: ' + data.sharedPost.description + '\n\n' + 'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.sharedPost._id
   });
 }
 //# sourceMappingURL=post.controller.js.map
