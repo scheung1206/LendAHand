@@ -140,6 +140,34 @@ export function update(req, res) { //stevens
     });
 }
 
+//Post review on Profile code
+export function createReview(req, res) {
+  req.body.user = req.user;
+  console.log(req.body);
+  User.update({_id: req.params.id}, {$push: {reviews: req.body}}, function(err, num) {
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+    //Post.updateSearchText(req.params.id);
+  });
+}
+
+export function destroyReview(req, res) {
+  User.update({_id: req.params.id}, {$pull: {reviews: {_id: req.params.reviewId , 'user': req.user._id}}}, function(err, num) {
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+
+export function updateReview(req, res) {
+  User.update({_id: req.params.id, 'reviews._id': req.params.reviewId}, {'reviews.$.content': req.body.content, 'reviews.$.rating': req.body.rating, 'reviews.$.user': req.user.id}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+
 /**
  * Get a single user
  */

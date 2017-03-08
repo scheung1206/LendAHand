@@ -7,6 +7,21 @@ import {Schema} from 'mongoose';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
+  reviews: [{
+      rating:{
+      type: Number,
+      default: 5
+      },
+      content: String,
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      }, 
+      createdAt: {
+      type: Date,
+      default: Date.now,
+  }
+}],
   name: String,
   email: {
     type: String,
@@ -35,14 +50,14 @@ var UserSchema = new Schema({
     skills: [{
       text:String,
     }],
-    reviews: [{
-      rating: Number,
-      content: String,
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User'
-      },
-  }]
+    likes: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    }],
+    reports: [{
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+      }],
 },
   provider: String,
   salt: String,
@@ -63,7 +78,8 @@ UserSchema
       'name': this.name,
       'role': this.role,
       'email': this.email,
-      'background': this.background
+      'background': this.background,
+      'reviews': this.reviews
     };
   });
 

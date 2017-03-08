@@ -13,9 +13,11 @@ router.put('/:id', auth.isAuthenticated(), controller.update);
 router.patch('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 
+//Post comments
 router.post('/:id/comments', auth.isAuthenticated(), controller.createComment);
 router.put('/:id/comments/:commentId', auth.isAuthenticated(), controller.updateComment);
 router.delete('/:id/comments/:commentId', auth.isAuthenticated(), controller.destroyComment);
+// Post comments
 
 router.put('/:id/like', auth.isAuthenticated(), controller.like);
 router.delete('/:id/like', auth.isAuthenticated(), controller.unlike);
