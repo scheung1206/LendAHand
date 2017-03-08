@@ -1,0 +1,14 @@
+<div class="container">
+  <form name="form" ng-submit="submitEdit()">
+    <h2>Name:</h2>
+    <input type="text" class="form-control" ng-model="user.name">
+    <h2>Skills:</h2>
+    <input type="text" placeholder = "Please separate skills with a comma" class="form-control" ng-model="user.background.skills">
+    <h2>About me:</h2>
+    <input type="text" class="form-control" ng-model="user.background.biography">
+    <h2>Location:</h2>
+    <input type="text" class="form-control" ng-model="user.background.location">
+    <br>
+    <input type="submit" class="btn btn-primary" value="Update profile">
+  </form>
+</div>
