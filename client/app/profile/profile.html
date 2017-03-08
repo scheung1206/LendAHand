@@ -1,5 +1,3 @@
-<div>This is the profile view.</div>
-{{user}}
 <div class="container" id = "profile-view-container">
   <div class="row">
   	<div class="col-md-6 col-md-offset-3">
@@ -9,6 +7,7 @@
               		<div class="row">
                         <div class="col-xs-12 col-sm-8">
                             <h2>{{user.name}}</h2>
+                            <p><strong>Location: </strong>{{user.background.location}}</p>
                             <p><strong>About: </strong>{{user.background.biography}}</p>
                             <p><strong>Hobbies: </strong>{{user.background.hobbies}}</p>
                             <p><strong>Skills: </strong>
@@ -16,17 +15,11 @@
                                 <a href="../?keyword={{skill.text}}"><span class="label label-info">{{skill.text}}</span></a>
                                 &nbsp;
                               </span>
-                                <!-- <span class="label label-info tags">html5</span>
-                                <span class="label label-info tags">css3</span>
-                                <span class="label label-info tags">jquery</span>
-                                <span class="label label-info tags">bootstrap3</span> -->
                             </p>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4 text-center">
-                                <img src="http://api.randomuser.me/portraits/men/49.jpg" alt="" class="center-block img-circle img-responsive">
-                                <button type="button" class="btn btn-primary btn-block" ng-show="user._id == auth._id"ng-click="editModal('lg',user)"><span class="fa fa-gear"></span> Edit Profile </button>
-
-
+                                <img src="/assets/images/default.png" alt="" class="center-block img-circle img-responsive">
+                                <button type="button" class="btn btn-primary btn-block" ng-show="user._id == auth._id" ng-click="editModal('lg',user)"><span class="fa fa-gear"></span> Edit Profile </button>
                                 <ul class="list-inline ratings text-center" title="Ratings">
                                   <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
                                   <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
@@ -37,18 +30,18 @@
                         </div><!--/col-->
 
                         <div class="col-xs-12 col-sm-4">
-                            <h2><strong> 20,7K </strong></h2>
-                            <p><small>Followers</small></p>
-                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Follow </button>
+                            <!-- <h2><strong> 20,7K </strong></h2>
+                            <p><small>Followers</small></p> -->
+                            <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4">
-                            <h2><strong>245</strong></h2>
-                            <p><small>Following</small></p>
+                            <!-- <h2><strong>245</strong></h2>
+                            <p><small>Following</small></p> -->
                             <a href="../users/{{user._id}}"><button class="btn btn-info btn-block"><span class="fa fa-user"></span> Posts </button></a>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4">
-                            <h2><strong>43</strong></h2>
-                            <p><small>Snippets</small></p>
+                            <!-- <h2><strong>43</strong></h2>
+                            <p><small>Snippets</small></p> -->
                             <a href="../users/{{user._id}}/liked"><button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Liked </button></a>
                         </div><!--/col-->
               		</div><!--/row-->
@@ -58,5 +51,53 @@
 
 
     </div>
+
   </div>
+</div>
+<!-- // -->
+<div class="col-md-offset-4"><h3><strong>Your review</strong></h3>
+</div>
+<div class= "col-md-offset-4">
+<form name="reviewForm" ng-submit="submitReview()">
+<textarea placeholder = "Rate on a scale of 0-5" style="min-width:50%;height:20px;border:solid 1px black" ng-model="newReview.rating" name="reviewEditor" required></textarea>
+
+  <textarea placeholder = "Review" style="min-width:50%;min-height:150px;border:solid 1px black" ng-model="newReview.content" name="reviewEditor" required></textarea>
+<br>
+   <input type="submit" class="btn btn-primary" ng-disabled="reviewForm.$invalid" value="Submit your review">
+</form>
+</div>
+<!-- // -->
+<br>
+<!-- Review Display -->
+<div class= "container" id = "profile-view-container">
+<br>
+<div ng-repeat="review in user.reviews">
+  <div class="review">
+    <button ng-if="isOwner(review)" type="button" class="close" ng-click="deleteReview(review)">&times;</button>
+    <pagedown-viewer content="review.content" ng-if="!editing2"><pagedown-viewer>
+      <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="review.content" ng-if=" editing2&&isOwner(review)"></textarea>
+      <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateReview(review)" ng-show=" editing2">Save</button>
+      <a ng-click="editing2=!editing2;" ng-show="isOwner(review) && !editing2">Edit</a>
+      <br>
+<!--       <span>
+        <button ng-if=" isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/reviews/' + review._id)">
+          <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
+        </button>
+        <button ng-if="!isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="  like('/reviews/' + review._id)"  >
+          <span class="glyphicon glyphicon-heart-empty"></span>Like
+        </button>
+      </span> -->
+<!--       <span>
+        <button ng-if=" isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/reviews/' + review._id)">
+          <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
+        </button>
+        <button ng-if="!isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="  report('/reviews/' + review._id);reportCommentMail(post,review)"  >
+          <span class="glyphicon glyphicon-warning-sign"></span>Report
+        </button>
+      </span> -->
+    <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
+
+  </div>
+  <hr/>
+</div>
 </div>
