@@ -7,6 +7,21 @@ import {Schema} from 'mongoose';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
+  reviews: [{
+      rating:{
+      type: Number,
+      default: 5
+      },
+      content: String,
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      },
+      createdAt: {
+      type: Date,
+      default: Date.now,
+  }
+}],
   name: String,
   email: {
     type: String,
@@ -22,19 +37,23 @@ var UserSchema = new Schema({
     hobbies: String,
     biography: {
       type: String,
-      default: 'Biography',
+      default: 'My Biography',
+    },
+    location: {
+      type: String,
+      default: 'My Location',
     },
     skills: [{
       text:String,
     }],
-    reviews: [{
-      rating: Number,
-      content: String,
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User'
-      },
-  }]
+    likes: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    }],
+    reports: [{
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+      }],
 },
   provider: String,
   salt: String,
@@ -55,7 +74,8 @@ UserSchema
       'name': this.name,
       'role': this.role,
       'email': this.email,
-      'background': this.background
+      'background': this.background,
+      'reviews': this.reviews
     };
   });
 
@@ -120,6 +140,12 @@ var validatePresenceOf = function(value) {
 /**
  * Pre-save hook
  */
+ UserSchema.pre('findOne', function(next){
+  this.populate('user');
+  this.populate('reviews.user', 'name');
+  next();
+});
+
 UserSchema
   .pre('save', function(next) {
     // Handle new/update passwords
