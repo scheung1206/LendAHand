@@ -70,6 +70,7 @@
 <br>
 <!-- Review Display -->
 <div class= "container" style = "border: solid 1px">
+<br>
 <div ng-repeat="review in user.reviews"> 
   <div class="review">
     <button ng-if="isOwner(review)" type="button" class="close" ng-click="deleteReview(review)">&times;</button>
@@ -94,7 +95,7 @@
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span> -->
-    <span style="float:right" class="text-right"> by {{review.user}} · {{review.user.createdAt|fromNow}}</span>
+    <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
 
   </div>
   <hr/>

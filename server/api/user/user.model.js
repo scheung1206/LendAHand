@@ -144,6 +144,12 @@ var validatePresenceOf = function(value) {
 /**
  * Pre-save hook
  */
+ UserSchema.pre('findOne', function(next){
+  this.populate('user');
+  this.populate('reviews.user', 'name');
+  next();
+});
+
 UserSchema
   .pre('save', function(next) {
     // Handle new/update passwords
