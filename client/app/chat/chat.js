@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('codeApp')
+angular.module('zoomchat')
   .config(function ($stateProvider) {
     $stateProvider
       .state('chat', {
