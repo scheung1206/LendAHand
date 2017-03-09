@@ -5,7 +5,8 @@
 
 
     <div>
-      <div style="float: right">{{post.createdAt|fromNow}}
+      <div style="float: right">
+          <button ng-click="postMessage(post)" class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button>{{post.createdAt|fromNow}}
         <span ng-if="! editing && post.progress == 'Open'" class="sphere green" title="Open"></span>
         <span ng-if="! editing && post.progress == 'In Progress'" class="sphere orange" title="In Progress"></span>
         <span ng-if="! editing && post.progress == 'Closed'" class="sphere red" title="Closed"></span>

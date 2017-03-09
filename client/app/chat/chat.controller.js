@@ -1,5 +1,6 @@
 'use strict';
 
+<<<<<<< HEAD
 angular.module("zoomchat", ["firebase"]);
   .controller('ChatCtrl',  ['$scope','$firebaseArray',
                 function($scope, $firebaseArray) {
@@ -23,4 +24,12 @@ angular.module("zoomchat", ["firebase"]);
                         $scope.messages.$add($scope.newMessage);
                         $('#message').val("");
                     }
+=======
+angular.module('codeApp')
+  .controller('ChatCtrl', function ($scope,$stateParams,Auth,$http) {
+    $http.get('/api/posts/' + $stateParams.id).success(function(post) {
+    $scope.post = post;
+    $scope.user = Auth.getCurrentUser();
+  });
+>>>>>>> master
   });

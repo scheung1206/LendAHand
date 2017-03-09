@@ -264,6 +264,21 @@ export function me(req, res, next) {
     .catch(err => next(err));
 }
 
+export function like(req, res) {
+  User.update({_id: req.params.id}, {$push: {likes: req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+export function unlike(req, res) {
+  User.update({_id: req.params.id}, {$pull: {likes: req.user.id}}, function(err, num){
+    if(err) { return handleError(res, err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+
 /**
  * Authentication callback
  */

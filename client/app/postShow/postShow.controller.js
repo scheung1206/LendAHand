@@ -35,7 +35,7 @@ angular.module('codeApp')
          loadPosts();
        });
      };
-     
+
      $scope.updateComment = function(comment) {
        $http.put('/api/posts/' + $stateParams.id + '/comments/' + comment._id, comment).success(function(){
          loadPosts();
@@ -112,6 +112,13 @@ angular.module('codeApp')
         theComment: comment,
       });
       $http.post('/api/posts/newComment',data).success(function(){
+      });
+    };
+
+    $scope.postMessage = function(obj)
+    {
+      $http.get('/chat/' + obj._id).success(function(){
+        $location.path('/chat/' + obj._id,obj);
       });
     };
 
