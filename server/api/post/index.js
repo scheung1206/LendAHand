@@ -21,13 +21,19 @@ router.delete('/:id/comments/:commentId', auth.isAuthenticated(), controller.des
 
 router.put('/:id/like', auth.isAuthenticated(), controller.like);
 router.delete('/:id/like', auth.isAuthenticated(), controller.unlike);
+
+//Comments
 router.put('/:id/comments/:commentId/like', auth.isAuthenticated(), controller.likeComment);
 router.delete('/:id/comments/:commentId/like', auth.isAuthenticated(), controller.unlikeComment);
+//Comments
 
 router.put('/:id/report', auth.isAuthenticated(), controller.report);
 router.delete('/:id/report', auth.isAuthenticated(), controller.unreport);
+
+//Comments
 router.put('/:id/comments/:commentId/report', auth.isAuthenticated(), controller.reportComment);
 router.delete('/:id/comments/:commentId/report', auth.isAuthenticated(), controller.unreportComment);
+//Comments
 
 router.post('/send', auth.isAuthenticated(),controller.reportMail);
 router.post('/share', auth.isAuthenticated(),controller.sharePost);

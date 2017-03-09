@@ -270,3 +270,35 @@ export function me(req, res, next) {
 export function authCallback(req, res, next) {
   res.redirect('/');
 }
+
+/* like/unlike REVIEW */
+export function likeReview(req, res) {
+  User.update({_id: req.params.id, 'reviews._id': req.params.reviewId}, {$push: {'reviews.$.likes': req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+export function unlikeReview(req, res) {
+  User.update({_id: req.params.id, 'reviews._id': req.params.reviewId}, {$pull: {'reviews.$.likes': req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+
+/* report/unreport REVIEW */
+export function reportReview(req, res) {
+  User.update({_id: req.params.id, 'reviews._id': req.params.reviewId}, {$push: {'reviews.$.reports': req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+export function unreportReview(req, res) {
+  User.update({_id: req.params.id, 'reviews._id': req.params.reviewId}, {$pull: {'reviews.$.reports': req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}

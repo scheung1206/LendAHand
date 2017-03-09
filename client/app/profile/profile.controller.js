@@ -73,7 +73,6 @@ angular.module('codeApp')
       $scope.user = user;
       $scope.auth = Auth.getCurrentUser();
     });
-
   };
 
      $scope.deleteReview = function(review) {
@@ -99,5 +98,35 @@ angular.module('codeApp')
     $scope.isLike = function(obj){
      return Auth.isLoggedIn() && obj && obj.likes && obj.likes.indexOf(Auth.getCurrentUser()._id)!==-1;
    };
+
+    $scope.isReport = function(obj){
+      return Auth.isLoggedIn() && obj && obj.reports && obj.reports.indexOf(Auth.getCurrentUser()._id)!==-1;
+    };
+
+   $scope.like = function(subpath) {
+     $http.put('/api/users/' + $scope.review._id + subpath + '/like').success(function(){
+     });
+   };
+   $scope.unlike = function(subpath) {
+     $http.delete('/api/users/' + $scope.review._id + subpath + '/like').success(function(){
+     });
+   };
+
+    $scope.report = function(subpath) {
+      $http.put('/api/users/' + $scope.review._id + subpath + '/report').success(function(){
+        if (subpath == '')
+        {
+          alert('Review Reported!');
+        }
+        else {Review
+          alert('Comment Reported!');
+        }
+      });
+    };
+
+    $scope.unreport = function(subpath) {
+      $http.delete('/api/users/' + $scope.user._id + subpath + '/report').success(function(){
+      });
+    };
 
   });

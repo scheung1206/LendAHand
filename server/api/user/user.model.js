@@ -20,7 +20,15 @@ var UserSchema = new Schema({
       createdAt: {
       type: Date,
       default: Date.now,
-  }
+  },
+      likes: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    }],
+    reports: [{
+          type: mongoose.Schema.ObjectId,
+          ref: 'User'
+      }]
 }],
   name: String,
   email: {
@@ -46,14 +54,6 @@ var UserSchema = new Schema({
     skills: [{
       text:String,
     }],
-    likes: [{
-      type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    }],
-    reports: [{
-          type: mongoose.Schema.ObjectId,
-          ref: 'User'
-      }],
 },
   provider: String,
   salt: String,

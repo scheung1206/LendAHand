@@ -23,6 +23,16 @@ router.put('/:id/reviews/:reviewId', auth.isAuthenticated(), controller.updateRe
 router.delete('/:id/reviews/:reviewId', auth.isAuthenticated(), controller.destroyReview);
 //User reviews
 
+//Reviews like
+router.put('/:id/reviews/:reviewId/like', auth.isAuthenticated(), controller.likeReview);
+router.delete('/:id/reviews/:reviewId/like', auth.isAuthenticated(), controller.unlikeReview);
+//Reviews like
+
+//Reviews report
+router.put('/:id/reviews/:reviewId/report', auth.isAuthenticated(), controller.reportReview);
+router.delete('/:id/reviews/:reviewId/report', auth.isAuthenticated(), controller.unreportReview);
+//Reviews report
+
 router.put('/:id', auth.isAuthenticated(), controller.update);
 router.patch('/:id', auth.isAuthenticated(), controller.update);
 

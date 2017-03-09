@@ -41,6 +41,7 @@ angular.module('codeApp')
          loadPosts();
        });
      };
+     // 
      $scope.isOwner = function(obj){
        return Auth.isLoggedIn() && obj && obj.user && obj.user._id === Auth.getCurrentUser()._id;
      };

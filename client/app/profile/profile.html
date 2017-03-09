@@ -29,7 +29,8 @@
                                 </ul>
                         </div><!--/col-->
 
-                        <div class="col-xs-12 col-sm-4">
+              		</div><!--/row-->
+                     <div class="col-xs-12 col-sm-4">
                             <!-- <h2><strong> 20,7K </strong></h2>
                             <p><small>Followers</small></p> -->
                             <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button>
@@ -44,11 +45,8 @@
                             <p><small>Snippets</small></p> -->
                             <a href="../users/{{user._id}}/liked"><button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Liked </button></a>
                         </div><!--/col-->
-              		</div><!--/row-->
               </div><!--/panel-body-->
           </div><!--/panel-->
-
-
 
     </div>
 
@@ -74,30 +72,35 @@
 <div ng-repeat="review in user.reviews">
   <div class="review">
     <button ng-if="isOwner(review)" type="button" class="close" ng-click="deleteReview(review)">&times;</button>
+
     <pagedown-viewer content="review.content" ng-if="!editing2"><pagedown-viewer>
+
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="review.content" ng-if=" editing2&&isOwner(review)"></textarea>
+
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateReview(review)" ng-show=" editing2">Save</button>
-      <a ng-click="editing2=!editing2;" ng-show="isOwner(review) && !editing2">Edit</a>
-      <br>
-<!--       <span>
+
+        <a ng-click="editing2=!editing2;" ng-show="isOwner(review) && !editing2">Edit</a>
+        <div>Rating: {{review.rating}}</div>
+  </div>
+      <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
+
+        <span>
         <button ng-if=" isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/reviews/' + review._id)">
           <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
         </button>
         <button ng-if="!isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="  like('/reviews/' + review._id)"  >
           <span class="glyphicon glyphicon-heart-empty"></span>Like
         </button>
-      </span> -->
-<!--       <span>
+      </span> 
+
+      <span>
         <button ng-if=" isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/reviews/' + review._id)">
           <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
         </button>
         <button ng-if="!isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="  report('/reviews/' + review._id);reportCommentMail(post,review)"  >
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
-      </span> -->
-    <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
-
-  </div>
+      </span>
   <hr/>
 </div>
 </div>
