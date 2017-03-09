@@ -16,11 +16,19 @@ var UserSchema = new Schema({
       user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
-      }, 
+      },
       createdAt: {
       type: Date,
       default: Date.now,
-  }
+    },
+      likes: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      }],
+      reports: [{
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        }],
 }],
   name: String,
   email: {
@@ -39,10 +47,6 @@ var UserSchema = new Schema({
       type: String,
       default: 'My Biography',
     },
-    hobbies: {
-      type: String,
-      default: 'My Hobbies',
-    },
     location: {
       type: String,
       default: 'My Location',
@@ -50,14 +54,6 @@ var UserSchema = new Schema({
     skills: [{
       text:String,
     }],
-    likes: [{
-      type: mongoose.Schema.ObjectId,
-      ref: 'User'
-    }],
-    reports: [{
-          type: mongoose.Schema.ObjectId,
-          ref: 'User'
-      }],
 },
   provider: String,
   salt: String,

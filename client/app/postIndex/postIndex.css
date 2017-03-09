@@ -24,19 +24,18 @@
 .green {
   background-color: green;
 }
-.yellow {
-  background-color: yellow;
+.orange {
+  background-color: orange;
 }
 .sphere {
-  height: 50px;
-  width: 50px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   text-align: center;
   vertical-align: middle;
   font-size: 500%;
   position: relative;
   display: inline-block;
-  margin: 5%;
 }
 .sphere::after {
   background-color: rgba(255, 255, 255, 0.3);

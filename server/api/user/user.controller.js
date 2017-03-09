@@ -191,6 +191,7 @@ export function update(req, res) {
   var newBio = req.body.background.biography;
   var newSkills = req.body.background.skills;
   var newHobbies = req.body.background.hobbies;
+  var newImage = req.body.background.image;
   console.log(newSkills);
   console.log(req.user._id);
 
@@ -202,6 +203,7 @@ export function update(req, res) {
         user.background.biography = newBio;
         user.background.skills = newSkills;
         user.background.hobbies = newHobbies;
+        user.background.image = newImage;
         return user.saveAsync()
           .then(() => {
             res.status(204).end();
@@ -260,6 +262,21 @@ export function me(req, res, next) {
       res.json(user);
     })
     .catch(err => next(err));
+}
+
+export function like(req, res) {
+  User.update({_id: req.params.id}, {$push: {likes: req.user.id}}, function(err, num){
+    if(err) { return handleError(res)(err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
+}
+export function unlike(req, res) {
+  User.update({_id: req.params.id}, {$pull: {likes: req.user.id}}, function(err, num){
+    if(err) { return handleError(res, err); }
+    if(num === 0) { return res.send(404).end(); }
+    exports.show(req, res);
+  });
 }
 
 /**
