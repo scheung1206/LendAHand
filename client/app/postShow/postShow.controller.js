@@ -7,8 +7,10 @@ angular.module('codeApp')
         $scope.post = post;
       });
     };
+
     loadPosts();
     $scope.newComment = {};
+
     $scope.submitComment = function() {
     $http.post('/api/posts/' + $stateParams.id + '/comments', $scope.newComment).success(function(){
       loadPosts();
@@ -21,16 +23,19 @@ angular.module('codeApp')
          $location.path('/');
        });
      };
+
      $scope.deleteComment = function(comment) {
        $http.delete('/api/posts/' + $stateParams.id + '/comments/' + comment._id).success(function(){
          loadPosts();
        });
      };
+
      $scope.updatePost = function() {
        $http.put('/api/posts/' + $stateParams.id, $scope.post).success(function(){
          loadPosts();
        });
      };
+
      $scope.updateComment = function(comment) {
        $http.put('/api/posts/' + $stateParams.id + '/comments/' + comment._id, comment).success(function(){
          loadPosts();
@@ -107,6 +112,13 @@ angular.module('codeApp')
         theComment: comment,
       });
       $http.post('/api/posts/newComment',data).success(function(){
+      });
+    };
+
+    $scope.postMessage = function(obj)
+    {
+      $http.get('/chat/' + obj._id).success(function(){
+        $location.path('/chat/' + obj._id,obj);
       });
     };
 

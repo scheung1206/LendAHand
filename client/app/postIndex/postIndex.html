@@ -1,8 +1,8 @@
 <header class="hero-unit" id="banner">
   <div class="container">
     <h1>LendAHand</h1>
-    <p class="lead">Kick-Start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+    <p class="lead">Trustworthy Network for Exchanging Services</p>
+    <!-- <img src="assets/images/lendahand.png" alt="I'm Yeoman"> -->
   </div>
 </header>
 
@@ -32,13 +32,16 @@
 
          <div style="float: right;">
            {{post.createdAt|fromNow}}
+           <span ng-if="post.progress == 'Open'" class="sphere green" title="Open"></span>
+           <span ng-if="post.progress == 'In Progress'" class="sphere orange" title="In Progress"></span>
+           <span ng-if="post.progress == 'Closed'" class="sphere red" title="Closed"></span>
          </div>
          <a ng-href="/posts/show/{{post._id}}" style="font-size: xx-large">{{post.title}}</a>
          <small>Requested by <a ng-href="/profile/{{post.user._id}}">{{post.user.name}}</a></small>
          <div><span ng-repeat="tag in post.tags">
-           <span class="label label-info">
+           <a href="/?keyword={{tag.text}}"><span class="label label-info">
              {{tag.text}}
-           </span>
+           </span></a>
            &nbsp;
          </span>
        </div>
