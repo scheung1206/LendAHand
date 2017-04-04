@@ -117,9 +117,13 @@ angular.module('codeApp')
 
     $scope.postMessage = function(obj)
     {
-      $http.get('/chat/' + obj._id).success(function(){
-        $location.path('/chat/' + obj._id,obj);
-      });
+      //var graph = require('fbgraph');
+      console.log('accessToken');
+      console.log(Auth.getToken());
+      //$http.get('https://graph.facebook.com/me/friends?access_token=' + Auth.getToken());
+      // $http.get('/chat/' + obj._id).success(function(){
+      //   $location.path('/chat/' + obj._id,obj);
+      // });
     };
 
 

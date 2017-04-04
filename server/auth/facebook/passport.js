@@ -25,6 +25,7 @@ export function setup(User, config) {
           email: profile.emails[0].value,
           role: 'user',
           provider: 'facebook',
+          accesstoken: accessToken,
           facebook: profile._json
         });
         user.saveAsync()

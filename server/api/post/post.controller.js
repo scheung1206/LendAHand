@@ -11,6 +11,21 @@
 
 import _ from 'lodash';
 import Post from './post.model';
+import graph from 'fbgraph';
+var auth = require('../../auth/auth.service');
+console.log("graph");
+console.log(graph);
+console.log(auth);
+graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
+var getFriends = function(url) {
+    graph.get(url, function (err, res) {
+        console.log(res);
+        if (res.paging && res.paging.next) {
+            getFriends(res.paging.next);
+        }
+    });
+};
+getFriends('/me/friends');
 
 import nodemailer from 'nodemailer';
 var transporter = nodemailer.createTransport({

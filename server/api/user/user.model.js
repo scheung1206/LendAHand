@@ -57,6 +57,7 @@ var UserSchema = new Schema({
 },
   provider: String,
   salt: String,
+  accesstoken: String,
   facebook: {},
   github: {}
 });
