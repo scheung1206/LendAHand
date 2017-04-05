@@ -11,21 +11,24 @@
 
 import _ from 'lodash';
 import Post from './post.model';
+import User from '../user/user.model';
 import graph from 'fbgraph';
 var auth = require('../../auth/auth.service');
-console.log("graph");
-console.log(graph);
-console.log(auth);
-graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
+//console.log("graph");
+//console.log(graph);
+//console.log(auth);
+var friendsList = [];
+//graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
 var getFriends = function(url) {
     graph.get(url, function (err, res) {
-        console.log(res);
-        if (res.paging && res.paging.next) {
-            getFriends(res.paging.next);
-        }
+        //console.log(res.data);
+        friendsList = res.data;
+        // if (res.paging && res.paging.next) {
+        //     getFriends(res.paging.next);
+        // }
     });
 };
-getFriends('/me/friends');
+//getFriends('/me/friends');
 
 import nodemailer from 'nodemailer';
 var transporter = nodemailer.createTransport({
@@ -111,9 +114,55 @@ function handleUnauthorized(req, res) {
 // Gets a list of Posts
 export function index(req, res) {
   var query = req.query.query && JSON.parse(req.query.query);
-  Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  console.log(query);
+  graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
+getFriends('/me/friends');
+  var newFriendslist = [];
+  var friendsUser = [];
+  var ObjectId = require('mongodb').ObjectID;
+
+  //Parse Friends Facebook ID
+  for(var i = 0; i < friendsList.length; i++) {
+    delete friendsList[i]['name'];
+    newFriendslist.push(friendsList[i].id);
+}
+console.log(JSON.stringify(newFriendslist));
+
+  //Use Facebook ID to get User
+  User.find({"facebook.id": {"$in": newFriendslist}}).exec(function(err,friends){
+    if (err){
+      console.log('HELLO WORLD');
+    }
+    else {
+      // Parse User Id from User
+      for(var i = 0; i < friends.length; i++) {
+      friendsUser.push(friends[i]._id); // Incorrect format
+    }
+      console.log('Friend uID');
+      console.log(friendsUser);
+      //res.json(posts);
+    }
+  });
+  friendsUser = [ObjectId("58e35c6e5afd5f0d69cb7bf0")]
+  // Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
+  // .then(respondWithResult(res))
+  //    .catch(handleError(res));
+  // Post.find({"user": ObjectId("58e35c6e5afd5f0d69cb7bf0")}).exec(function(err,posts){
+  Post.find({"$or": [{query}, {"user": {"$in": friendsUser}}]}).sort({createdAt: -1}).limit(20).exec(function(err,posts){
+    if (err){
+      console.log('HELLO WORLD');
+    }
+    else {
+      console.log('posts');
+      console.log(posts);
+      respondWithResult(res.json(posts));
+    }
+  });
+  //console.log(res);
+  //.catch(handleError(res));
+  // Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
+  //   .then(respondWithResult(res))
+  //   .catch(handleError(res));
 }
 
 // Gets a single Post from the DB
