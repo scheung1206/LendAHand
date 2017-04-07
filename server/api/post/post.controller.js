@@ -11,21 +11,28 @@
 
 import _ from 'lodash';
 import Post from './post.model';
+import User from '../user/user.model';
 import graph from 'fbgraph';
 var auth = require('../../auth/auth.service');
-console.log("graph");
-console.log(graph);
-console.log(auth);
-graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
+//console.log("graph");
+//console.log(graph);
+//console.log(auth);
+var friendsList = [];
+var friendsUserID = [];
+var friendsPostsAll = [];
+var accessToken;
+var ObjectId = require('mongodb').ObjectID;
+//graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
 var getFriends = function(url) {
     graph.get(url, function (err, res) {
-        console.log(res);
-        if (res.paging && res.paging.next) {
-            getFriends(res.paging.next);
-        }
+        //console.log(res.data);
+        friendsList = res.data;
+        // if (res.paging && res.paging.next) {
+        //     getFriends(res.paging.next);
+        // }
     });
 };
-getFriends('/me/friends');
+//getFriends('/me/friends');
 
 import nodemailer from 'nodemailer';
 var transporter = nodemailer.createTransport({
@@ -111,9 +118,78 @@ function handleUnauthorized(req, res) {
 // Gets a list of Posts
 export function index(req, res) {
   var query = req.query.query && JSON.parse(req.query.query);
-  Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  console.log(!query.user && !query.$or);
+  if (query.userId)
+  {
+User.findOne({"_id": query.userId}).exec(function(err,user){
+if (err)
+{
+  console.log('no user');
+}
+else {
+  console.log(user.accesstoken);
+  graph.setAccessToken(user.accesstoken);
+}
+});
+// console.log(accessToken);
+//   graph.setAccessToken(accessToken); //Incorrect Token
+//   console.log(graph.getAccessToken());
+getFriends('/me/friends');
+  var newFriendslist = [];
+  var friendsObject;
+
+  var friendsUser = [];
+  var friendsPosts = [];
+
+  //Parse Friends Facebook ID STABLE
+  for(var i = 0; i < friendsList.length; i++) {
+    delete friendsList[i]['name'];
+    newFriendslist.push(friendsList[i].id);
+}
+console.log(JSON.stringify(newFriendslist));
+
+  //Use Facebook ID to get User STABLE
+  User.find({"facebook.id": {"$in": newFriendslist}}).exec(function(err,friends){
+    if (err){
+      console.log('HELLO WORLD');
+    }
+    else {
+      // Parse User Id from User
+      for(var i = 0; i < friends.length; i++) {
+        var temp = JSON.stringify(friends[i]._id);
+      friendsUser.push(ObjectId.createFromHexString(JSON.parse(temp))); // Incorrect format
+    }
+    friendsUserID = friendsUser;
+    console.log(friendsUser);
+  }
+  });
+  console.log('HELP ' + friendsUserID);//FIX UP SYNTAX
+    // if (query.user)
+    // {
+    //   console.log(query.user);
+    //   friendsUser.push(JSON.stringify(query.user));
+    // }
+    //  Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
+    //  .then(respondWithResult(res))
+    //  .catch(handleError(res));
+      //Post.find({"$or": [{query}, {"user": {"$in": friendsUserID}}]}).sort({createdAt: -1}).limit(20).exec(function(err,posts){
+        Post.find({"user": {"$in": friendsUserID}}).sort({createdAt: -1}).limit(20).exec(function(err,posts){
+      //Post.find({"user": ObjectId.createFromHexString(JSON.parse(friendsUserID[j]))}).exec(function(err,posts){
+        if (err){
+          console.log('HELLO WORLD');
+        }
+        else {
+          respondWithResult(res.json(posts));
+        }
+      });
+  //  }
+     console.log(friendsPostsAll);
+   }
+   else{
+     Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
+     .then(respondWithResult(res))
+     .catch(handleError(res));
+   }
 }
 
 // Gets a single Post from the DB
