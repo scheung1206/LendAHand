@@ -17,13 +17,19 @@ class NavbarController {
     this.menu = [
         {
           'title': 'All',
-          'expand': function(){return true;}, 
+          'expand': function(){return true;},
           'link': function(){return '/';},
           'show': function(){return true;},
         },
         {
+          'title': 'Friends',
+          'expand': function(){return true;},
+          'link': function(){return '/friends/' + Auth.getCurrentUser()._id;},
+          'show': Auth.isLoggedIn,
+        },
+        {
           'title': 'Mine',
-          'expand': function(){return true;}, 
+          'expand': function(){return true;},
           'link': function(){return '/users/' + Auth.getCurrentUser()._id;},
           'show': Auth.isLoggedIn,
         },

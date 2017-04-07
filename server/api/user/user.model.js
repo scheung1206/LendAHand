@@ -20,6 +20,7 @@ var UserSchema = new Schema({
       createdAt: {
       type: Date,
       default: Date.now,
+<<<<<<< HEAD
   },
       likes: [{
       type: mongoose.Schema.ObjectId,
@@ -29,6 +30,17 @@ var UserSchema = new Schema({
           type: mongoose.Schema.ObjectId,
           ref: 'User'
       }]
+=======
+    },
+      likes: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      }],
+      reports: [{
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        }],
+>>>>>>> refs/remotes/origin/master
 }],
   name: String,
   email: {
@@ -57,6 +69,7 @@ var UserSchema = new Schema({
 },
   provider: String,
   salt: String,
+  accesstoken: String,
   facebook: {},
   github: {}
 });

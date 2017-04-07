@@ -35,6 +35,16 @@ angular.module('codeApp')
             return {user: $stateParams.userId};
           }
         },
+      })
+      .state('userFriendIndex', {
+        url: '/friends/:userId',
+        templateUrl: 'app/postIndex/postIndex.html',
+        controller: 'PostIndexCtrl',
+        resolve: {
+          query: function($stateParams){
+            return {userId: $stateParams.userId};
+          }
+        },
       });
 
   });

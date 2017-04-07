@@ -35,7 +35,7 @@ angular.module('codeApp')
          loadPosts();
        });
      };
-     
+
      $scope.updateComment = function(comment) {
        $http.put('/api/posts/' + $stateParams.id + '/comments/' + comment._id, comment).success(function(){
          loadPosts();
@@ -114,6 +114,17 @@ angular.module('codeApp')
       });
       $http.post('/api/posts/newComment',data).success(function(){
       });
+    };
+
+    $scope.postMessage = function(obj)
+    {
+      //var graph = require('fbgraph');
+      console.log('accessToken');
+      console.log(Auth.getToken());
+      //$http.get('https://graph.facebook.com/me/friends?access_token=' + Auth.getToken());
+      // $http.get('/chat/' + obj._id).success(function(){
+      //   $location.path('/chat/' + obj._id,obj);
+      // });
     };
 
 
