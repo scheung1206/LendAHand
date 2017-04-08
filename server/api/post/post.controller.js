@@ -14,24 +14,13 @@ import Post from './post.model';
 import User from '../user/user.model';
 import graph from 'fbgraph';
 var auth = require('../../auth/auth.service');
-//console.log("graph");
-//console.log(graph);
-//console.log(auth);
-var friendsList = [];
-var friendsUserID = [];
-var friendsPostsAll = [];
 var accessToken;
 var ObjectId = require('mongodb').ObjectID;
-//graph.setAccessToken('EAAaSSAEsqNQBAN801q0DnpnKUkZCclPPZBwOZCSdWl8tZAJ2Lasp4gMhb00FQjZCXFVSKCfISaT3pX0ZCFloPMN7830BjAiqTdcQzo1EpiA0CxZBY8PvZBex8gp2uN9CBeZCZCuOM7exqlhZAHGMjeZBZAbNWSVUEwOTu2i8ZD'); //Incorrect Token
-var getFriends = function(url) {
-    graph.get(url, function (err, res) {
-        //console.log(res.data);
-        friendsList = res.data;
-        // if (res.paging && res.paging.next) {
-        //     getFriends(res.paging.next);
-        // }
-    });
-};
+// var getFriends = function(url) {
+//     graph.get(url, function (err, res) {
+//         friendsList = res.data;
+//     });
+// };
 //getFriends('/me/friends');
 
 import nodemailer from 'nodemailer';
@@ -117,8 +106,9 @@ function handleUnauthorized(req, res) {
 
 // Gets a list of Posts
 export function index(req, res) {
+  //Query based on tab
   var query = req.query.query && JSON.parse(req.query.query);
-  console.log(!query.user && !query.$or);
+  // If userId field is present, using Facebook tab
   if (query.userId)
   {
 User.findOne({"_id": query.userId}).exec(function(err,user){
@@ -127,65 +117,59 @@ if (err)
   console.log('no user');
 }
 else {
-  console.log(user.accesstoken);
+  //Sets Facebook access token of current user
   graph.setAccessToken(user.accesstoken);
-}
-});
-// console.log(accessToken);
-//   graph.setAccessToken(accessToken); //Incorrect Token
-//   console.log(graph.getAccessToken());
-getFriends('/me/friends');
-  var newFriendslist = [];
-  var friendsObject;
 
-  var friendsUser = [];
-  var friendsPosts = [];
+  //Gets facebook friends from user, puts into 'friendsList'
+  graph.get("/me/friends", function (err, graph) {
+      if (err){
+        console.log('No friends');
+      }
+      else{
+        // Stores facebook graph information
+        var friendsList = graph.data;
+        // Stores facebook id of friends
+        var newFriendslist = [];
+        // Stores User Objects of friends
+        var friendsUser = [];
+        // Stores User Object ID of friends
+        var friendsUserID = [];
 
-  //Parse Friends Facebook ID STABLE
-  for(var i = 0; i < friendsList.length; i++) {
-    delete friendsList[i]['name'];
-    newFriendslist.push(friendsList[i].id);
-}
-console.log(JSON.stringify(newFriendslist));
+        //Parse Friends Facebook ID
+        for(var i = 0; i < friendsList.length; i++) {
+          delete friendsList[i]['name'];
+          newFriendslist.push(friendsList[i].id);
+      }
 
-  //Use Facebook ID to get User STABLE
-  User.find({"facebook.id": {"$in": newFriendslist}}).exec(function(err,friends){
-    if (err){
-      console.log('HELLO WORLD');
-    }
-    else {
-      // Parse User Id from User
-      for(var i = 0; i < friends.length; i++) {
-        var temp = JSON.stringify(friends[i]._id);
-      friendsUser.push(ObjectId.createFromHexString(JSON.parse(temp))); // Incorrect format
-    }
-    friendsUserID = friendsUser;
-    console.log(friendsUser);
-  }
-  });
-  console.log('HELP ' + friendsUserID);//FIX UP SYNTAX
-    // if (query.user)
-    // {
-    //   console.log(query.user);
-    //   friendsUser.push(JSON.stringify(query.user));
-    // }
-    //  Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
-    //  .then(respondWithResult(res))
-    //  .catch(handleError(res));
-      //Post.find({"$or": [{query}, {"user": {"$in": friendsUserID}}]}).sort({createdAt: -1}).limit(20).exec(function(err,posts){
-        Post.find({"user": {"$in": friendsUserID}}).sort({createdAt: -1}).limit(20).exec(function(err,posts){
-      //Post.find({"user": ObjectId.createFromHexString(JSON.parse(friendsUserID[j]))}).exec(function(err,posts){
-        if (err){
-          console.log('HELLO WORLD');
+        //Use Facebook ID to get User Objects
+        User.find({"facebook.id": {"$in": newFriendslist}}).exec(function(err,friends){
+          if (err){
+            console.log('HELLO WORLD');
+          }
+          else {
+            // Parse User Id from User
+            for(var i = 0; i < friends.length; i++) {
+              var temp = JSON.stringify(friends[i]._id);
+            friendsUser.push(ObjectId.createFromHexString(JSON.parse(temp))); // Incorrect format
+          }
+            // Get all posts from friends object id
+            Post.find({"user": {"$in": friendsUser}}).sort({createdAt: -1}).limit(20).exec(function(err,posts){
+                  if (err){
+                  console.log('HELLO WORLD');
+                }
+                else {
+                  respondWithResult(res.json(posts));
+                }
+              });
         }
-        else {
-          respondWithResult(res.json(posts));
-        }
-      });
-  //  }
-     console.log(friendsPostsAll);
+        });
+    } //End of graph query else
+  }); //End of graph query
+}//User find one query ELSE end
+}); //End of user find one query
    }
    else{
+     //Standard query from Mine and Liked pages
      Post.find(query).sort({createdAt: -1}).limit(20).execAsync()
      .then(respondWithResult(res))
      .catch(handleError(res));
