@@ -8,7 +8,8 @@ export function setup(User, config) {
     callbackURL: config.facebook.callbackURL,
     profileFields: [
       'displayName',
-      'emails'
+      'emails',
+      'picture.type(normal)',
     ]
   },
   function(accessToken, refreshToken, profile, done) {
@@ -19,13 +20,14 @@ export function setup(User, config) {
         if (user) {
           return done(null, user);
         }
-
+        
         user = new User({
           name: profile.displayName,
           email: profile.emails[0].value,
           role: 'user',
           provider: 'facebook',
           accesstoken: accessToken,
+          picture: profile.photos ? profile.photos[0].value : '/client/assets/images/default.png',
           facebook: profile._json
         });
         user.saveAsync()
