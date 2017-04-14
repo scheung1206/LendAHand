@@ -60,7 +60,7 @@ PostSchema.pre('find', function(next){
 });
 PostSchema.pre('findOne', function(next){
   this.populate('user');
-  this.populate('comments.user', 'name');
+  this.populate('comments.user');
   next();
 });
 
