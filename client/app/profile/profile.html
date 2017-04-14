@@ -29,7 +29,6 @@
                                 </ul>
                         </div><!--/col-->
 
-<<<<<<< HEAD
               		</div><!--/row-->
                      <div class="col-xs-12 col-sm-4">
                             <!-- <h2><strong> 20,7K </strong></h2>
@@ -46,25 +45,7 @@
                             <p><small>Snippets</small></p> -->
                             <a href="../users/{{user._id}}/liked"><button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Liked </button></a>
                         </div><!--/col-->
-=======
                       </div><!--/col-->
-                      <div class="col-xs-12 col-sm-4">
-                          <!-- <h2><strong> 20,7K </strong></h2>
-                          <p><small>Followers</small></p> -->
-                          <a href="../chat"><button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button></a>
-                      </div><!--/col-->
-                      <div class="col-xs-12 col-sm-4">
-                          <!-- <h2><strong>245</strong></h2>
-                          <p><small>Following</small></p> -->
-                          <a href="../users/{{user._id}}"><button class="btn btn-info btn-block"><span class="fa fa-user"></span> Posts </button></a>
-                      </div><!--/col-->
-                      <div class="col-xs-12 col-sm-4">
-                          <!-- <h2><strong>43</strong></h2>
-                          <p><small>Snippets</small></p> -->
-                          <a href="../users/{{user._id}}/liked"><button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span> Liked </button></a>
-
-              		</div><!--/row-->
->>>>>>> refs/remotes/origin/master
               </div><!--/panel-body-->
           </div><!--/panel-->
 
@@ -98,7 +79,6 @@
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="review.content" ng-if=" editing2&&isOwner(review)"></textarea>
 
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateReview(review)" ng-show=" editing2">Save</button>
-<<<<<<< HEAD
 
         <a ng-click="editing2=!editing2;" ng-show="isOwner(review) && !editing2">Edit</a>
         <div>Rating: {{review.rating}}</div>
@@ -106,23 +86,18 @@
       <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
 
         <span>
-=======
       <a ng-click="editing2=!editing2;" ng-show="isOwner(review) && !editing2">Edit</a>
       <br>
        <span>
->>>>>>> refs/remotes/origin/master
         <button ng-if=" isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/reviews/' + review._id)">
           <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
         </button>
         <button ng-if="!isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="  like('/reviews/' + review._id)"  >
           <span class="glyphicon glyphicon-heart-empty"></span>Like
         </button>
-<<<<<<< HEAD
       </span> 
 
-=======
       </span>
->>>>>>> refs/remotes/origin/master
       <span>
         <button ng-if=" isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/reviews/' + review._id)">
           <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
@@ -131,15 +106,13 @@
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span>
-<<<<<<< HEAD
-=======
+
       <div>
       Rating: {{review.rating}}
     </div>
     <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
 
   </div>
->>>>>>> refs/remotes/origin/master
   <hr/>
 </div>
 </div>
