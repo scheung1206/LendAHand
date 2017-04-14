@@ -19,7 +19,8 @@
       <div>
         <span style="font-size:xx-large" ng-if="! editing">{{post.title}}</span>
         <input type=text ng-model="post.title" ng-if=" editing">
-          <small>Requested by <a ng-href="/profile/{{post.user._id}}">{{post.user.name}}</a></small>
+          <small>Requested by <a ng-href="/profile/{{post.user._id}}">{{post.user.name}} <img ng-src="{{post.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/></a>
+          </small>
       </div>
       <span ng-repeat="tag in post.tags">
         <a href="../?keyword={{tag.text}}"><span class="label label-info">
@@ -143,11 +144,8 @@ Like
       <div>{{comment.reports.length}}</div>
     </div> -->
 
-  <div class="comment">
-    <button ng-if="isOwner(comment)" type="button" class="close" ng-click="deleteComment(comment)">&times;</button>
 
-
-
+<div>
     <pagedown-viewer content="comment.content" ng-if="!editing2"></pagedown-viewer>
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="comment.content" ng-if=" editing2&&isOwner(comment)"></textarea>
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateComment(comment)" ng-show=" editing2">Save</button>
@@ -168,10 +166,9 @@ Like
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span>
-    <span style="float:right" class="text-right">by <a href="../profile/{{comment.user._id}}">{{comment.user.name}}</a> · {{comment.createdAt|fromNow}}</span>
-
-  </div>
+    <span style="float:right" class="text-right">by <a href="../profile/{{comment.user._id}}">{{comment.user.name}} <img ng-src="{{comment.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/></a> · {{comment.createdAt|fromNow}}</span>
   <hr/>
+</div>
 </div>
 <h3>Your comment</h3>
 <div>
