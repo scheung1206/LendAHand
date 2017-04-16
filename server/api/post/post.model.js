@@ -54,7 +54,7 @@ var PostSchema = new mongoose.Schema({
 });
 
 PostSchema.pre('find', function(next){
-  this.populate('user', 'name');
+  this.populate('user');
   this.populate('comments.user', 'name');
   next();
 });

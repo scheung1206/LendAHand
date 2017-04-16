@@ -76,7 +76,8 @@ UserSchema
       'role': this.role,
       'email': this.email,
       'background': this.background,
-      'reviews': this.reviews
+      'reviews': this.reviews,
+      'facebook': this.facebook
     };
   });
 

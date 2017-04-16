@@ -166,7 +166,10 @@ Like
           <span class="glyphicon glyphicon-warning-sign"></span>Report
         </button>
       </span>
-    <span style="float:right" class="text-right">by <a href="../profile/{{comment.user._id}}">{{comment.user.name}} <img ng-src="{{comment.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/></a> · {{comment.createdAt|fromNow}}</span>
+    <span style="float:right" class="text-right">by <a href="../profile/{{comment.user._id}}">{{comment.user.name}}
+      <img ng-if="comment.user.facebook.picture.data.url" ng-src="{{comment.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/>
+      <img ng-if="!comment.user.facebook.picture.data.url" ng-src="/assets/images/default.png" style="height:25px;width:25px;" class="img-circle"/>
+    </a> · {{comment.createdAt|fromNow}}</span>
   <hr/>
 </div>
 </div>
