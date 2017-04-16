@@ -7,10 +7,17 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.index = index;
 exports.create = create;
+exports.update = update;
+exports.createReview = createReview;
+exports.destroyReview = destroyReview;
+exports.updateReview = updateReview;
 exports.show = show;
+exports.update = update;
 exports.destroy = destroy;
 exports.changePassword = changePassword;
 exports.me = me;
+exports.like = like;
+exports.unlike = unlike;
 exports.authCallback = authCallback;
 
 var _userModel = require('./user.model');
@@ -43,6 +50,54 @@ function handleError(res, statusCode) {
   };
 }
 
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function (entity) {
+    if (entity) {
+      res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function saveUpdates(updates) {
+  return function (entity) {
+    var updated = _.extend(entity, updates);
+    return updated.saveAsync().spread(function (updated) {
+      return updated;
+    });
+  };
+}
+
+function handleEntityNotFound(res) {
+  return function (entity) {
+    if (!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
+function handleError(res, statusCode) {
+  statusCode = statusCode || 500;
+  return function (err) {
+    res.status(statusCode).send(err);
+  };
+}
+
+function handleUnauthorized(req, res) {
+  return function (entity) {
+    if (!entity) {
+      return null;
+    }
+    if (entity.user._id.toString() !== req.user._id.toString()) {
+      res.send(403).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -70,6 +125,87 @@ function create(req, res, next) {
   })['catch'](validationError(res));
 }
 
+// Update user info
+// export function update (req, res){
+//   var userId = req.user._id;
+//   var newName = req.body.name;
+//   var newSkills = req.body.background.skills;
+//   var newBiography = req.body.background.biography;
+//   var newLocation = req.body.background.location;
+//   User.findByIdAsync(userId) //Modify to accomadate for user updates instead
+//     .then(user => {
+//         user.name = newName;
+//         user.background.skills = newSkills;
+//         user.background.location = newLocation;
+//         user.background.biography = newBiography;
+//         return user.saveAsync()
+//           .then(() => {
+//             res.status(204).end();
+//           })
+//           .catch(validationError(res));
+//     });
+// }
+
+function update(req, res) {
+  //stevens
+  console.log(req.body);
+  var userId = req.user._id;
+  var newBio = req.body.background.biography;
+  console.log(newBio);
+  console.log(req.user._id);
+
+  _userModel2['default'].findByIdAsync(userId).then(function (user) {
+    console.log(user);
+    console.log(req.user);
+
+    user.background.biography = newBio;
+    return user.saveAsync().then(function () {
+      res.status(204).end();
+    })['catch'](validationError(res));
+  });
+}
+
+//Post review on Profile code
+
+function createReview(req, res) {
+  req.body.user = req.user;
+  console.log(req.body);
+  _userModel2['default'].update({ _id: req.params.id }, { $push: { reviews: req.body } }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+    //Post.updateSearchText(req.params.id);
+  });
+}
+
+function destroyReview(req, res) {
+  _userModel2['default'].update({ _id: req.params.id }, { $pull: { reviews: { _id: req.params.reviewId, 'user': req.user._id } } }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
+function updateReview(req, res) {
+  _userModel2['default'].update({ _id: req.params.id, 'reviews._id': req.params.reviewId }, { 'reviews.$.content': req.body.content, 'reviews.$.rating': req.body.rating, 'reviews.$.user': req.user.id }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
 /**
  * Get a single user
  */
@@ -84,6 +220,31 @@ function show(req, res, next) {
     res.json(user.profile);
   })['catch'](function (err) {
     return next(err);
+  });
+}
+
+function update(req, res) {
+  console.log(req.body);
+  var userId = req.user._id;
+  var newName = req.body.name;
+  var newBio = req.body.background.biography;
+  var newSkills = req.body.background.skills;
+  var newHobbies = req.body.background.hobbies;
+  var newImage = req.body.background.image;
+  console.log(newSkills);
+  console.log(req.user._id);
+
+  _userModel2['default'].findByIdAsync(userId).then(function (user) {
+    //console.log(user);
+    //  console.log(req.user);
+    user.name = newName;
+    user.background.biography = newBio;
+    user.background.skills = newSkills;
+    user.background.hobbies = newHobbies;
+    user.background.image = newImage;
+    return user.saveAsync().then(function () {
+      res.status(204).end();
+    })['catch'](validationError(res));
   });
 }
 
@@ -134,6 +295,30 @@ function me(req, res, next) {
     res.json(user);
   })['catch'](function (err) {
     return next(err);
+  });
+}
+
+function like(req, res) {
+  _userModel2['default'].update({ _id: req.params.id }, { $push: { likes: req.user.id } }, function (err, num) {
+    if (err) {
+      return handleError(res)(err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
+  });
+}
+
+function unlike(req, res) {
+  _userModel2['default'].update({ _id: req.params.id }, { $pull: { likes: req.user.id } }, function (err, num) {
+    if (err) {
+      return handleError(res, err);
+    }
+    if (num === 0) {
+      return res.send(404).end();
+    }
+    exports.show(req, res);
   });
 }
 

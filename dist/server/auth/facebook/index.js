@@ -19,7 +19,7 @@ var _authService = require('../auth.service');
 var router = _express2['default'].Router();
 
 router.get('/', _passport2['default'].authenticate('facebook', {
-  scope: ['email', 'user_about_me'],
+  scope: ['email', 'user_about_me', 'user_friends', 'user_photos'],
   failureRedirect: '/signup',
   session: false
 })).get('/callback', _passport2['default'].authenticate('facebook', {

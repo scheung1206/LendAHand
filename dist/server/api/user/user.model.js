@@ -17,6 +17,29 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new _mongoose.Schema({
+  reviews: [{
+    rating: {
+      type: Number,
+      'default': 5
+    },
+    content: String,
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    },
+    createdAt: {
+      type: Date,
+      'default': Date.now
+    },
+    likes: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    }],
+    reports: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    }]
+  }],
   name: String,
   email: {
     type: String,
@@ -27,8 +50,24 @@ var UserSchema = new _mongoose.Schema({
     'default': 'user'
   },
   password: String,
+  background: {
+    image: String,
+    hobbies: String,
+    biography: {
+      type: String,
+      'default': 'My Biography'
+    },
+    location: {
+      type: String,
+      'default': 'My Location'
+    },
+    skills: [{
+      text: String
+    }]
+  },
   provider: String,
   salt: String,
+  accesstoken: String,
   facebook: {},
   github: {}
 });
@@ -40,8 +79,12 @@ var UserSchema = new _mongoose.Schema({
 // Public profile information
 UserSchema.virtual('profile').get(function () {
   return {
+    '_id': this._id,
     'name': this.name,
-    'role': this.role
+    'role': this.role,
+    'email': this.email,
+    'background': this.background,
+    'reviews': this.reviews
   };
 });
 
@@ -96,6 +139,12 @@ var validatePresenceOf = function validatePresenceOf(value) {
 /**
  * Pre-save hook
  */
+UserSchema.pre('findOne', function (next) {
+  this.populate('user');
+  this.populate('reviews.user', 'name');
+  next();
+});
+
 UserSchema.pre('save', function (next) {
   var _this = this;
 

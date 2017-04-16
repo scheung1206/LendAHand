@@ -18,7 +18,7 @@ function setup(User, config) {
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL,
-    profileFields: ['displayName', 'emails']
+    profileFields: ['displayName', 'emails', 'picture.type(normal)']
   }, function (accessToken, refreshToken, profile, done) {
     User.findOneAsync({
       'facebook.id': profile.id
@@ -32,6 +32,8 @@ function setup(User, config) {
         email: profile.emails[0].value,
         role: 'user',
         provider: 'facebook',
+        accesstoken: accessToken,
+        picture: profile.photos ? profile.photos[0].value : '/client/assets/images/default.png',
         facebook: profile._json
       });
       user.saveAsync().then(function (user) {
