@@ -356,3 +356,42 @@ export function sharePost(req, res) {
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.sharedPost._id
   });
 }
+
+export function acceptServicer(req, res) {
+  var data = req.body;
+  Post.findByIdAsync(req.params.id).then(post => {
+        post.servicer = data;
+        post.progress = "In Progress";
+        return post.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+
+    });
+}
+
+export function serviceComplete(req, res) {
+  Post.findByIdAsync(req.params.id).then(post => {
+        post.progress = "Closed";
+        return post.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+
+    });
+}
+
+export function servicerRemove(req, res) {
+  Post.findByIdAsync(req.params.id).then(post => {
+        post.servicer = undefined;
+        post.progress = "Open";
+        return post.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+
+    });
+}

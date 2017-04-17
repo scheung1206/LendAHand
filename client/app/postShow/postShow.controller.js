@@ -125,7 +125,38 @@ angular.module('codeApp')
       //   $location.path('/chat/' + obj._id,obj);
       // });
     };
+    //Accept Servicer
+    $scope.acceptServicer = function(user)
+    {
+      if (confirm('Accept ' + user.name + ' as servicer?'))
+      {
+      $http.post('/api/posts/' + $stateParams.id + '/accept/', user).success(function(){
+          loadPosts();
+        });
+      // console.log(post);
+      // console.log(user);
+      }
+    };
+    //Complete Service
+    $scope.serviceComplete = function()
+    {
+      if (confirm('Service is complete?'))
+      {
+      $http.post('/api/posts/' + $stateParams.id + '/complete/').success(function(){
+          loadPosts();
+        });
+      }
+    };
 
+    $scope.servicerRemove = function(user)
+    {
+      if (confirm('Remove ' + user.name + ' as servicer?'))
+      {
+      $http.post('/api/posts/' + $stateParams.id + '/remove/').success(function(){
+          loadPosts();
+        });
+      }
+    };
 
     $scope.shareModal = function (size, selectedPost) {
       console.log('LOLOLOLOL');

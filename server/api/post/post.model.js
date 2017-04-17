@@ -8,6 +8,10 @@ var PostSchema = new mongoose.Schema({
   price: Number,
   location: String,
   serviceDate: Date,
+  servicer: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
   progress: {
     type: String,
     default: "Open"
@@ -15,6 +19,10 @@ var PostSchema = new mongoose.Schema({
   //active: Boolean,
   comments: [{
     content: String,
+    requested: {
+      type: Boolean,
+      default: false
+    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User'
@@ -61,6 +69,7 @@ PostSchema.pre('find', function(next){
 PostSchema.pre('findOne', function(next){
   this.populate('user');
   this.populate('comments.user');
+  this.populate('servicer');
   next();
 });
 

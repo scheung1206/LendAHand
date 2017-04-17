@@ -6,16 +6,12 @@
 
     <div>
       <div style="float: right">
-          <button ng-click="postMessage(post)" class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button>{{post.createdAt|fromNow}}
+          <!-- <button ng-click="postMessage(post)" class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Message </button>{{post.createdAt|fromNow}} -->
         <span ng-if="! editing && post.progress == 'Open'" class="sphere green" title="Open"></span>
         <span ng-if="! editing && post.progress == 'In Progress'" class="sphere orange" title="In Progress"></span>
         <span ng-if="! editing && post.progress == 'Closed'" class="sphere red" title="Closed"></span>
-        <select type=text ng-model="post.progress" ng-if=" editing">
-            <option value="Open">Open</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Closed">Closed</option>
-          </select>
       </div>
+
       <div>
         <span style="font-size:xx-large" ng-if="! editing">{{post.title}}</span>
         <input type=text ng-model="post.title" ng-if=" editing">
@@ -44,6 +40,13 @@
   <pagedown-viewer content="post.description" ng-if="!editing"></pagedown-viewer>
     <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="post.description" ng-if=" editing"></textarea>
 <br>
+
+<div ng-if="post.servicer && isOwner(post)">CURRENT SERVICER:
+  <a ng-href="/profile/{{post.servicer._id}}">{{post.servicer.name}}</a>
+  <button ng-if="post.progress != 'Closed'"class="btn btn-success" ng-click="serviceComplete()">Completed</button>
+  <button class="btn btn-danger" ng-click="servicerRemove(post.servicer)">Remove</button>
+</div>
+
     <div style="float:right;">
       <div ng-if="! editing">{{post.location}} ${{post.price}}</div>
       <input type=text ng-model="post.location" ng-if=" editing">
@@ -80,72 +83,13 @@
         </button>
       </span>
     </div>
-<!-- <hr>
-<div style="float: left;font-size: x-large; padding: 0; width: 2em; text-align: center;">
-      <button ng-if=" isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="unlike('')">
-        <span class="glyphicon glyphicon-like" style="color: #CF7C00;" ></span>
-      </button>
-      <button ng-if="!isLike(post)" type="button" style="background: transparent; border: 0;" ng-click="like('')"  >
-        <span class="glyphicon glyphicon-like-empty"></span>
-      </button>
-      <br/>
-      <div>{{post.likes.length}}</div>
-    </div>
-Like
-
-    <h3>
-      <div ng-if="! editing">{{post.location}}</div>
-      <input type=text ng-model="post.location" ng-if=" editing">
-    </h3>
-
-    <h3>
-      <div ng-if="! editing">{{post.serviceDate | date:'mediumDate'}}</div>
-      <input type=date ng-model="post.serviceDate" ng-if=" editing">
-    </h3>
-
-    <h3>
-      <div ng-if="! editing">{{post.progress}}</div>
-      <select type=text ng-model="post.progress" ng-if=" editing">
-          <option value="Open">Open</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Closed">Closed</option>
-        </select>
-    </h3> -->
-
-
-    <!-- <button type="submit" class="btn btn-primary" ng-click="editing=false;updatePost()" ng-show=" editing">Save</button>
-    <a ng-click="editing=!editing;" ng-show="isOwner(post) && !editing">Edit</a> -->
-
-  <!-- <div class="text-right">by {{post.user.name}} · {{post.createdAt|fromNow}}</div> -->
 
 <hr/>
 <h3>{{post.comments.length}} Comments</h3>
 <div ng-repeat="comment in post.comments">
 
-  <!-- <div style="float: left;font-size: large; padding: 0; width: 2em; text-align: center;">
-       <button ng-if=" isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/comments/' + comment._id)">
-         <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>
-       </button>
-       <button ng-if="!isLike(comment)" type="button" style="background: transparent; border: 0;" ng-click="  like('/comments/' + comment._id)"  >
-         <span class="glyphicon glyphicon-heart-empty"></span>
-       </button>
-       <br/>
-       <div>{{comment.likes.length}}</div>
-     </div>
-
-     <div style="float: right;font-size: large; padding: 0; width: 2em; text-align: center;">
-      <button ng-if=" isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/comments/' + comment._id)">
-        <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>
-      </button>
-      <button ng-if="!isReport(comment)" type="button" style="background: transparent; border: 0;" ng-click="  report('/comments/' + comment._id)"  >
-        <span class="glyphicon glyphicon-warning-sign"></span>
-      </button>
-      <br/>
-      <div>{{comment.reports.length}}</div>
-    </div> -->
-
-
 <div>
+  <button ng-if="comment.requested && !(post.servicer && post.servicer.id == comment.user.id)" class="btn btn-info" style="float:right" ng-click="acceptServicer(comment.user)">Accept</button>
     <pagedown-viewer content="comment.content" ng-if="!editing2"></pagedown-viewer>
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="comment.content" ng-if=" editing2&&isOwner(comment)"></textarea>
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateComment(comment)" ng-show=" editing2">Save</button>
@@ -178,6 +122,8 @@ Like
 <form name="commentForm" ng-submit="submitComment();newCommentMail(post,newComment)">
   <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="newComment.content" name="commentEditor" required></textarea>
 <br>
+  <input type="checkbox" ng-model="newComment.requested"> Apply for service</input>
+  <br><br>
    <input type="submit" class="btn btn-primary" ng-disabled="commentForm.$invalid" value="Submit your comment">
 </form>
 </div>
