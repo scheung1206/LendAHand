@@ -6,6 +6,12 @@ angular.module('codeApp')
 
     $http.get('/api/users/' + $stateParams.id).success(function(user) {
       $scope.user = user;
+      var rating = 0.0;
+      angular.forEach(user.reviews,function(review){
+        rating = rating + review.rating;
+      });
+      rating = rating / user.reviews.length;
+      $scope.rating = rating;
       $scope.auth = Auth.getCurrentUser();
     });
 
