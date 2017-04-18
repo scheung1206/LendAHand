@@ -102,8 +102,7 @@
     "npm": "^2.14.7"
   },
   "scripts": {
-    "start": "node server",
-    "postinstall": "npm start"
+    "start": "node server"
   },
   "private": true
 }
