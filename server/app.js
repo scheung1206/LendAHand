@@ -3,8 +3,8 @@
  */
 
 'use strict';
-
-import express from 'express';
+var express = require('express');
+//import express from 'express';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
