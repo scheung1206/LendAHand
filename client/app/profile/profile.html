@@ -18,8 +18,10 @@
                             </p>
                         </div><!--/col-->
                         <div class="col-xs-12 col-sm-4 text-center">
-                                <img ng-src="{{auth.facebook.picture.data.url}}" class="center-block img-circle img-responsive"/>
-                                <button type="button" class="btn btn-primary btn-block" ng-show="user._id == auth._id" ng-click="editModal('lg',user)"><span class="fa fa-gear"></span> Edit Profile </button>
+                                <img ng-if="user.facebook.picture.data.url" ng-src="{{user.facebook.picture.data.url}}" alt="/assets/images/default.png" class="center-block img-circle img-responsive"/>
+                                <img ng-if="!user.facebook.picture.data.url" ng-src="/assets/images/default.png" class="center-block img-circle img-responsive"/>
+                                <button type="button" class="btn btn-primary btn-block" ng-if="user._id == auth._id" ng-click="editModal('lg',user)"><span class="fa fa-gear"></span> Edit Profile </button>
+                                Avg Rating: {{rating}}
                                 <ul class="list-inline ratings text-center" title="Ratings">
                                   <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
                                   <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>

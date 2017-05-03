@@ -29,6 +29,10 @@ var PostSchema = new mongoose.Schema({
     likes: [{
       type: mongoose.Schema.ObjectId,
       ref: 'User'
+    }],
+    reports: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
     }]
   }],
   tags: [{
@@ -45,6 +49,10 @@ var PostSchema = new mongoose.Schema({
   likes: [{
     type: mongoose.Schema.ObjectId,
     ref: 'User'
+  }],
+  reports: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
   }]
 });
 
@@ -54,8 +62,8 @@ PostSchema.pre('find', function (next) {
   next();
 });
 PostSchema.pre('findOne', function (next) {
-  this.populate('user', 'name');
-  this.populate('comments.user', 'name');
+  this.populate('user');
+  this.populate('comments.user');
   next();
 });
 

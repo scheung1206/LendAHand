@@ -41,4 +41,9 @@ router.post('/share', auth.isAuthenticated(),controller.sharePost);
 router.post('/reportComment', auth.isAuthenticated(),controller.reportCommentMail);
 router.post('/newComment', auth.isAuthenticated(),controller.newCommentMail);
 
+router.post('/:id/accept', auth.isAuthenticated(), controller.acceptServicer);
+router.post('/:id/complete', auth.isAuthenticated(), controller.serviceComplete);
+router.post('/:id/remove', auth.isAuthenticated(), controller.servicerRemove);
+
+
 module.exports = router;

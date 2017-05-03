@@ -38,6 +38,8 @@
          </div>
          <a ng-href="/posts/show/{{post._id}}" style="font-size: xx-large">{{post.title}}</a>
          <small>Requested by <a ng-href="/profile/{{post.user._id}}">{{post.user.name}}</a></small>
+         <img ng-if="!post.user.facebook.picture.data.url" ng-src="/assets/images/default.png" style="height:25px;width:25px;" class="img-circle"/>
+         <img ng-if="post.user.facebook.picture.data.url" ng-src="{{post.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/>
          <div><span ng-repeat="tag in post.tags">
            <a href="/?keyword={{tag.text}}"><span class="label label-info">
              {{tag.text}}
