@@ -91,7 +91,7 @@
 <div ng-repeat="comment in post.comments">
 
 <div>
-  <button ng-if="comment.requested && !(post.servicer && post.servicer.id == comment.user.id)" class="btn btn-info" style="float:right" ng-click="acceptServicer(comment.user)">Accept</button>
+  <button ng-if="isOwner(post) && comment.requested && !(post.servicer && post.servicer.id == comment.user.id)" class="btn btn-info" style="float:right" ng-click="acceptServicer(comment.user)">Accept</button>
     <pagedown-viewer content="comment.content" ng-if="!editing2"></pagedown-viewer>
       <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="comment.content" ng-if=" editing2&&isOwner(comment)"></textarea>
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateComment(comment)" ng-show=" editing2">Save</button>
