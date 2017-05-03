@@ -173,6 +173,7 @@ angular.module('codeApp')
         $scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
         console.log(post);
         $scope.ok = function () {
+          alert('Recommendation Sent!');
       $modalInstance.close($scope.post);
         };
         //Share Post by Email
@@ -183,7 +184,6 @@ angular.module('codeApp')
             sharedPost: obj,
           });
           $http.post('/api/posts/share',data).success(function(){
-          alert('Email Sent!');
           });
         };
 
@@ -229,6 +229,13 @@ angular.module('codeApp')
         $scope.auth = Auth.getCurrentUser();
       });
 
+    };
+
+    $scope.reviewedUser = function(post)
+    {
+      $http.post('/api/posts/' + $stateParams.id + '/reviewedUser/').success(function(){
+          loadPosts();
+        });
     };
 
   $scope.cancel = function () {

@@ -41,11 +41,12 @@
     <textarea style="min-width:100%;min-height:150px;border:solid 1px black" ng-model="post.description" ng-if=" editing"></textarea>
 <br>
 
-<div ng-if="post.servicer && isOwner(post)">CURRENT SERVICER:
+<div ng-if="post.servicer && isOwner(post)">SERVICER:
   <a ng-href="/profile/{{post.servicer._id}}">{{post.servicer.name}}</a>
-  <button ng-if="post.progress != 'Closed'"class="btn btn-success" ng-click="serviceComplete()">Completed</button>
-  <button ng-if="post.progress == 'Closed'"class="btn btn-default" ng-click="reviewModal('sm',post)">Review User</button>
-  <button class="btn btn-danger" ng-click="servicerRemove(post.servicer)">Remove</button>
+  <button ng-if="post.progress != 'Closed' && post.reviewWritten == false"class="btn btn-success" ng-click="serviceComplete()">Completed</button>
+  <button ng-if="post.progress == 'Closed' && post.reviewWritten == false"class="btn btn-info" ng-click="reviewModal('sm',post)">Write Review</button>
+  <button ng-if="post.reviewWritten == false" class="btn btn-danger" ng-click="servicerRemove(post.servicer)">Remove</button>
+  <button ng-if="post.reviewWritten == true" class="btn btn-success">Service Completed</button>
 </div>
 
     <div style="float:right;">

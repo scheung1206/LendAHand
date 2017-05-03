@@ -115,6 +115,7 @@ angular.module('codeApp')
       $scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
       console.log(post);
       $scope.ok = function () {
+        alert('Recommendation Sent!');
     $modalInstance.close($scope.post);
       };
       //Share Post by Email

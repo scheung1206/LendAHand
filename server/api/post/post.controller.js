@@ -395,3 +395,16 @@ export function servicerRemove(req, res) {
 
     });
 }
+
+export function reviewedUser(req, res) {
+  Post.findByIdAsync(req.params.id).then(post => {
+        post.reviewWritten = true;
+        post.progress = "Closed";
+        return post.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+
+    });
+}

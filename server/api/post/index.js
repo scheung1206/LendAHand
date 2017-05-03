@@ -39,5 +39,6 @@ router.post('/:id/accept', auth.isAuthenticated(), controller.acceptServicer);
 router.post('/:id/complete', auth.isAuthenticated(), controller.serviceComplete);
 router.post('/:id/remove', auth.isAuthenticated(), controller.servicerRemove);
 
+router.post('/:id/reviewedUser', auth.isAuthenticated(), controller.reviewedUser);
 
 module.exports = router;

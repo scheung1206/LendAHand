@@ -8,6 +8,10 @@ var PostSchema = new mongoose.Schema({
   price: Number,
   location: String,
   serviceDate: Date,
+  reviewWritten: {
+    type: Boolean,
+    default: false
+  },
   servicer: {
     type: mongoose.Schema.ObjectId,
     ref: 'User'
