@@ -208,5 +208,48 @@ angular.module('codeApp')
     });
   };
 
+  $scope.reviewModal = function (size, selectedPost) {
+  var modalInstance = $modal.open({
+    animation: $scope.animationsEnabled,
+    templateUrl: 'app/reviewUser.html',
+    controller: function ($scope, $modalInstance, post){
+      $scope.post = post;
+      $scope.ok = function () {
+        alert('Review has been sent!');
+    $modalInstance.close($scope.post);
+      };
+      //Share Post by Email
+      $scope.submitReview = function() {
+      $http.post('/api/users/' + post.servicer._id + '/reviews', $scope.newReview).success(function(){
+        $scope.newReview = {};
+      });
+      $http.get('/api/users/' + post.servicer._id).success(function(user) {
+        $scope.user = user;
+        $scope.auth = Auth.getCurrentUser();
+      });
+
+    };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+      };
+    },
+    //controllerAs: '$ctrl',
+    size: size,
+    //appendTo: parentElem,
+    resolve: {
+      post: function () {
+        return selectedPost;
+      }
+    }
+  });
+
+  modalInstance.result.then(function (selectedItem) {
+    $scope.selected = selectedItem;
+  }, function () {
+    $log.info('Modal dismissed at: ' + new Date());
+  });
+};
+
 
   });

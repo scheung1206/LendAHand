@@ -44,6 +44,7 @@
 <div ng-if="post.servicer && isOwner(post)">CURRENT SERVICER:
   <a ng-href="/profile/{{post.servicer._id}}">{{post.servicer.name}}</a>
   <button ng-if="post.progress != 'Closed'"class="btn btn-success" ng-click="serviceComplete()">Completed</button>
+  <button ng-if="post.progress == 'Closed'"class="btn btn-default" ng-click="reviewModal('sm',post)">Review User</button>
   <button class="btn btn-danger" ng-click="servicerRemove(post.servicer)">Remove</button>
 </div>
 

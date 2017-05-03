@@ -71,16 +71,16 @@ angular.module('codeApp')
      };
 
     //ADD Client side controller && HTML code!!
-    $scope.submitReview = function() {
-    $http.post('/api/users/' + $stateParams.id + '/reviews', $scope.newReview).success(function(){
-      $scope.newReview = {};
-    });
-    $http.get('/api/users/' + $stateParams.id).success(function(user) {
-      $scope.user = user;
-      $scope.auth = Auth.getCurrentUser();
-    });
-
-  };
+  //   $scope.submitReview = function() {
+  //   $http.post('/api/users/' + $stateParams.id + '/reviews', $scope.newReview).success(function(){
+  //     $scope.newReview = {};
+  //   });
+  //   $http.get('/api/users/' + $stateParams.id).success(function(user) {
+  //     $scope.user = user;
+  //     $scope.auth = Auth.getCurrentUser();
+  //   });
+  //
+  // };
 
      $scope.deleteReview = function(review) {
      $http.delete('/api/users/' + $stateParams.id + '/reviews/' + review._id).success(function(){
