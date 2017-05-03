@@ -15,7 +15,10 @@
       <div>
         <span style="font-size:xx-large" ng-if="! editing">{{post.title}}</span>
         <input type=text ng-model="post.title" ng-if=" editing">
-          <small>Requested by <a ng-href="/profile/{{post.user._id}}">{{post.user.name}} <img ng-src="{{post.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/></a>
+          <small>Requested by <a ng-href="/profile/{{post.user._id}}">{{post.user.name}}
+             <img ng-if="!post.user.facebook.picture.data.url" ng-src="/assets/images/default.png" style="height:25px;width:25px;" class="img-circle"/>
+            <img ng-if="post.user.facebook.picture.data.url" ng-src="{{post.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/></a>
+
           </small>
       </div>
       <span ng-repeat="tag in post.tags">
@@ -44,7 +47,7 @@
 <div ng-if="post.servicer && isOwner(post)">SERVICER:
   <a ng-href="/profile/{{post.servicer._id}}">{{post.servicer.name}}</a>
   <button ng-if="post.progress != 'Closed' && post.reviewWritten == false"class="btn btn-success" ng-click="serviceComplete()">Completed</button>
-  <button ng-if="post.progress == 'Closed' && post.reviewWritten == false"class="btn btn-info" ng-click="reviewModal('sm',post)">Write Review</button>
+  <button ng-if="post.progress == 'Closed' && post.reviewWritten == false"class="btn btn-info" ng-click="reviewModal('lg',post)">Write Review</button>
   <button ng-if="post.reviewWritten == false" class="btn btn-danger" ng-click="servicerRemove(post.servicer)">Remove</button>
   <button ng-if="post.reviewWritten == true" class="btn btn-success">Service Completed</button>
 </div>
