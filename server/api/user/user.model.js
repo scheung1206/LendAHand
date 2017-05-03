@@ -21,14 +21,10 @@ var UserSchema = new Schema({
       type: Date,
       default: Date.now,
     },
-      likes: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'User'
-      }],
-      reports: [{
-            type: mongoose.Schema.ObjectId,
-            ref: 'User'
-        }],
+    post: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Post'
+    },
 }],
   name: String,
   email: {
@@ -144,7 +140,8 @@ var validatePresenceOf = function(value) {
  */
  UserSchema.pre('findOne', function(next){
   this.populate('user');
-  this.populate('reviews.user', 'name');
+  this.populate('reviews.user');
+  this.populate('reviews.post');
   next();
 });
 

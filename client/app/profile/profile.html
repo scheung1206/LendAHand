@@ -82,26 +82,15 @@
       <button type="submit" class="btn btn-primary" ng-click="editing2=false;updateReview(review)" ng-show=" editing2">Save</button>
       <a ng-click="editing2=!editing2;" ng-show="isOwner(review) && !editing2">Edit</a>
       <br>
-       <span>
-        <button ng-if=" isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="unlike('/reviews/' + review._id)">
-          <span class="glyphicon glyphicon-heart" style="color: #CF7C00;" ></span>Like
-        </button>
-        <button ng-if="!isLike(review)" type="button" style="background: transparent; border: 0;" ng-click="  like('/reviews/' + review._id)"  >
-          <span class="glyphicon glyphicon-heart-empty"></span>Like
-        </button>
-      </span>
-      <span>
-        <button ng-if=" isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="unreport('/reviews/' + review._id)">
-          <span class="glyphicon glyphicon-warning-sign" style="color: #CF7C00;" ></span>Unreport
-        </button>
-        <button ng-if="!isReport(review)" type="button" style="background: transparent; border: 0;" ng-click="  report('/reviews/' + review._id);reportCommentMail(post,review)"  >
-          <span class="glyphicon glyphicon-warning-sign"></span>Report
-        </button>
-      </span>
+      <h3> Review for : {{review.post.title}}</h3>
       <div>
       Rating: {{review.rating}}
     </div>
-    <span style="float:right" class="text-right"> by {{review.user.name}} · {{review.createdAt|fromNow}}</span>
+    <span style="float:right" class="text-right"><a href="/users/{{review.user.id}}"> by {{review.user.name}}
+      <img ng-if="review.user.facebook.picture.data.url" ng-src="{{review.user.facebook.picture.data.url}}" style="height:25px;width:25px;" class="img-circle"/>
+      <img ng-if="!review.user.facebook.picture.data.url" ng-src="/assets/images/default.png" style="height:25px;width:25px;" class="img-circle"/>
+    </a>
+      · {{review.createdAt|fromNow}}</span>
 
   </div>
   <hr/>

@@ -220,6 +220,7 @@ angular.module('codeApp')
       };
       //Share Post by Email
       $scope.submitReview = function() {
+        $scope.newReview.post = post;
       $http.post('/api/users/' + post.servicer._id + '/reviews', $scope.newReview).success(function(){
         $scope.newReview = {};
       });
