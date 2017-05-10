@@ -88,8 +88,7 @@ angular.module('codeApp')
         //toEmail: this.shareEmail,
         reportedPost: obj,
       });
-      $http.post('/api/posts/send',data).success(function(){
-      });
+      $http.post('/api/posts/send',data);
     };
 
     $scope.reportCommentMail = function(post,comment) {
@@ -99,20 +98,17 @@ angular.module('codeApp')
         reportedPost: post,
         reportedComment: comment,
       });
-      $http.post('/api/posts/reportComment',data).success(function(){
-      });
+      $http.post('/api/posts/reportComment',data);
     };
 
     $scope.newCommentMail = function(post,comment) {
-      console.log(post.user);
       var data = ({
         fromUser: Auth.getCurrentUser(),
         //toEmail: this.shareEmail,
         thePost: post,
         theComment: comment,
       });
-      $http.post('/api/posts/newComment',data).success(function(){
-      });
+      $http.post('/api/posts/newComment',data);
     };
 
     $scope.postMessage = function(obj)
@@ -126,11 +122,15 @@ angular.module('codeApp')
       // });
     };
     //Accept Servicer
-    $scope.acceptServicer = function(user)
+    $scope.acceptServicer = function(user,post)
     {
       if (confirm('Accept ' + user.name + ' as servicer?'))
       {
-      $http.post('/api/posts/' + $stateParams.id + '/accept/', user).success(function(){
+        var data = ({
+          servicer: user,
+          thePost: post,
+        });
+      $http.post('/api/posts/' + $stateParams.id + '/accept/', data).success(function(){
           loadPosts();
         });
       // console.log(post);
@@ -159,7 +159,6 @@ angular.module('codeApp')
     };
 
     $scope.shareModal = function (size, selectedPost) {
-      console.log('LOLOLOLOL');
      //var parentElem = selectedPost ?
        //angular.element($document[0].querySelector('.modal-demo ' + selectedPost)) : undefined;
     var modalInstance = $modal.open({
@@ -183,8 +182,7 @@ angular.module('codeApp')
             toEmail: this.shareEmail,
             sharedPost: obj,
           });
-          $http.post('/api/posts/share',data).success(function(){
-          });
+          $http.post('/api/posts/share',data);
         };
 
     $scope.cancel = function () {

@@ -30,12 +30,6 @@ var transporter = nodemailer.createTransport({
         user: 'mail.lendahand@gmail.com',//'scheung1206@gmail.com',
         pass: 'lendahand123'
     }
-}, {
-    // default values for sendMail method
-    from: 'sender@address',
-    headers: {
-        'My-Awesome-Header': '123'
-    }
 });
 
 function respondWithResult(res, statusCode) {
@@ -306,7 +300,7 @@ export function unreportComment(req, res) {
 export function reportMail(req, res) {
   var data = req.body;
 
-  transporter.sendMail({
+var mailReport = {
     from: data.fromUser.email,//'scheung1206@gmail.com',
     to: 'mail.lendahand@gmail.com',
     subject: 'LendAHand Report Notification - ' + data.reportedPost.title,
@@ -314,12 +308,23 @@ export function reportMail(req, res) {
     'Title: ' + data.reportedPost.title + '\n' +
     'Description: ' + data.reportedPost.description + '\n\n' +
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
+  };
+
+  transporter.sendMail(mailReport, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    else {
+      console.log('Sent');
+        res.sendStatus(200);
+    }
   });
+  transporter.close();
 }
 export function reportCommentMail(req, res) {
   var data = req.body;
 
-  transporter.sendMail({
+  var mailReportComment = {
     from: data.fromUser.email,//'scheung1206@gmail.com',
     to: 'mail.lendahand@gmail.com',
     subject: 'LendAHand Report Notification - ' + data.reportedPost.title,
@@ -327,12 +332,22 @@ export function reportCommentMail(req, res) {
     'Commenter: ' + data.reportedComment.user.name + '\n' +
     'Content: ' + data.reportedComment.content + '\n\n' +
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.reportedPost._id
+  };
+
+  transporter.sendMail(mailReportComment, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    else {
+      console.log('Sent');
+        res.sendStatus(200);
+    }
   });
+  transporter.close();
 }
 export function newCommentMail(req, res) {
   var data = req.body;
-  console.log(data);
-  transporter.sendMail({
+  var mailComment = {
     from: data.fromUser.email,//'scheung1206@gmail.com',
     to: data.thePost.user.email,
     subject: 'LendAHand Service Comment - ' + data.thePost.title,
@@ -340,13 +355,24 @@ export function newCommentMail(req, res) {
     'Comment: ' + data.theComment.content + '\n\n' +
     //'Description: ' + data.reportedPost.description + '\n\n' +
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.thePost._id
+  };
+
+  transporter.sendMail(mailComment, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    else {
+      console.log('Sent');
+      res.sendStatus(200);
+    }
   });
+  transporter.close();
 }
 //Send email to shared emails
 export function sharePost(req, res) {
   var data = req.body;
 
-  transporter.sendMail({
+  var mailShare = {
     from: data.fromUser.email,
     to: data.toEmail,
     subject: 'LendAHand Recommendation - ' + data.sharedPost.title,
@@ -354,13 +380,25 @@ export function sharePost(req, res) {
     'Title: ' + data.sharedPost.title + '\n' +
     'Description: ' + data.sharedPost.description + '\n\n' +
     'Link to Post: ' + 'http://localhost:9000/posts/show/' + data.sharedPost._id
+  };
+
+  transporter.sendMail(mailShare, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    else {
+      console.log('Sent');
+        res.sendStatus(200);
+    }
   });
+  transporter.close();
 }
 
 export function acceptServicer(req, res) {
   var data = req.body;
+  console.log(data);
   Post.findByIdAsync(req.params.id).then(post => {
-        post.servicer = data;
+        post.servicer = data.servicer;
         post.progress = "In Progress";
         return post.saveAsync()
           .then(() => {
