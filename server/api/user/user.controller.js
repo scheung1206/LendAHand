@@ -189,6 +189,7 @@ export function update(req, res) {
   var userId = req.user._id;
   var newName = req.body.name;
   var newBio = req.body.background.biography;
+  var newLocation = req.body.background.location;
   var newSkills = req.body.background.skills;
   var newHobbies = req.body.background.hobbies;
   var newImage = req.body.background.image;
@@ -201,6 +202,7 @@ export function update(req, res) {
         //  console.log(req.user);
         user.name = newName;
         user.background.biography = newBio;
+        user.background.location = newLocation;
         user.background.skills = newSkills;
         user.background.hobbies = newHobbies;
         user.background.image = newImage;
